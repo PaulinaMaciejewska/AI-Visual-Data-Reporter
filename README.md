@@ -15,7 +15,7 @@ Opisuje wykresy z raportów (PNG, PDF).
 
 **Efekt:** system wyjaśniający raporty wizualne (np. „Wykres pokazuje wzrost sprzedaży w Q2 o 15%").
 
-## Przykłądowe źródła do wykresów: 
+## Przykładowe źródła do wykresów: 
 - https://data.gov/
 - https://ourworldindata.org/
 - https://public.tableau.com/app/learn/sample-data
@@ -28,6 +28,6 @@ Opisuje wykresy z raportów (PNG, PDF).
 - możemy pobierać dane w formacie csv/xml i samemu tworzyć wykresy
 - Inne pomysły ?
 
-# Interfejs
+## Interfejs
 - https://streamlit.io/
 - https://flask.palletsprojects.com/en/stable/
