@@ -31,3 +31,7 @@ Opisuje wykresy z raportów (PNG, PDF).
 ## Interfejs
 - https://streamlit.io/
 - https://flask.palletsprojects.com/en/stable/
+
+
+# ClickUp Space: 
+https://app.clickup.com/90151638526/v/s/90157514166
