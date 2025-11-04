@@ -1,0 +1,8 @@
+openai
+streamlit
+asyncio
+python-dotenv
+azure-core
+azure-ai-agents
+azure-cognitiveservices-vision-computervision
+msrest
