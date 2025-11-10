@@ -11,39 +11,92 @@ class ChartsAssistant:
         self.openai_client = Config.get_openai_client()
         self.vision_client = Config.get_vision_client()
     
-    def analyze_chart(self, image_data):
+    async def analyze_chart(self, files):
         """Computer Vision OCR + GPT-4 Vision to analyze chart images and extract structured data."""
-        if isinstance(image_data, bytes):
-            base64_image = base64.b64encode(image_data).decode('utf-8')
-        else:
-            base64_image = image_data
+        image_bytes_dict = {}
+        base64_images_dict = {}
+        all_text_results = []
+        
+        for filename, image_data in files:
+            if isinstance(image_data, bytes):
+                image_bytes_dict[filename] = image_data
+                base64_images_dict[filename] = base64.b64encode(image_data).decode('utf-8')
+            else:
+                # Already base64
+                image_bytes_dict[filename] = base64.b64decode(image_data)
+                base64_images_dict[filename] = image_data
 
         # Read operation for OCR from file
         print("Extracting text with OCR...")
-        read_result = self.vision_client.read_in_stream(
-            io.BytesIO(image_data),
-            raw=True
-        )
+        for filename, image_bytes in image_bytes_dict.items():
+            read_result = self.vision_client.read_in_stream(
+                io.BytesIO(image_bytes),
+                raw=True
+            )
         
-        # Extract operation ID
-        operation_id = read_result.headers["Operation-Location"].split("/")[-1]
-        
-        # wait for the operation to complete
-        result = self._poll_for_result(operation_id)
-        
-        # Extracting text 
-        # TODO: improve extracting text positions to better associate labels with data points
-        text_results = []
-        if result:
-            for page in result.analyze_result.read_results:
-                for line in page.lines:
-                    text_results.append({
-                    'text': line.text,
-                    'bbox': line.bounding_box  # Position information
-                })
+            # Extract operation ID
+            operation_id = read_result.headers["Operation-Location"].split("/")[-1]
             
-        extracted_text = "\n".join([item['text'] for item in text_results])
+            print(f"Operation ID: {operation_id}")
+            # wait for the operation to complete
+            result = self._poll_for_result(operation_id)
+        
+            # Extracting text 
+            print(f"result: {result}")
+            analyze_result = result.get('analyze_result') if isinstance(result, dict) else result.analyze_result
+            
+            # Create a separate list for this file's text items
+            file_text_items = []
+            if analyze_result and hasattr(analyze_result, 'read_results'):
+                for page in analyze_result.read_results:
+                    for line in page.lines:
+                        file_text_items.append({
+                            'text': line.text,
+                            'bbox': line.bounding_box
+                        })
+            
+            # Extract text from THIS file only
+            extracted_text = "\n".join([item['text'] for item in file_text_items])
+            
+            print(f"Extracted Text for {filename}:\n{extracted_text}\n")
+            
+            # Now append to all_text_results as a tuple
+            all_text_results.append((filename, extracted_text))
+            
         print("Analyzing with GPT-4 Vision...")
+        
+        ocr_summary = "\n\n".join([f"**{filename}:**\n{text}" for filename, text in all_text_results])
+
+        content = [
+                        {
+                            "type": "text",
+                            "text": f"""Analyze this chart and create a structured interpretation.
+
+                            OCR extracted this text (but positions may be jumbled):
+                            {ocr_summary}
+
+                            For each chart please:
+                            1. Identify the chart type (pie chart, bar chart, etc.)
+                            2. Connect each company/label to its correct percentage by looking at the visual layout
+                            3. Describe the market share distribution
+                            4. Identify trends (who has the largest/smallest share)
+                            5. Provide insights about the data
+                            
+                            And finally, create a concise summary to explain visualize report like: "The chart shows a 15% increase of sales in Q2". 
+                            If it's possible provide correlation and dependencies between charts.
+
+                            Create a clear table showing: Company Name | Market Share %"""
+                        }
+                    ]
+        
+        for filename in all_text_results:
+            content.append({
+                "type": "image_url",
+                "image_url": {
+                    "url": f"data:image/jpeg;base64,{base64_images_dict[filename[0]]}"
+                }
+            })
+            
         response = self.openai_client.chat.completions.create(
             model=os.getenv("OPENAI_DEPLOYMENT_NAME"),
             messages=[
@@ -55,30 +108,7 @@ class ChartsAssistant:
                 },
                 {
                     "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": f"""Analyze this chart and create a structured interpretation.
-
-                            OCR extracted this text (but positions may be jumbled):
-                            {extracted_text}
-
-                            Please:
-                            1. Identify the chart type (pie chart, bar chart, etc.)
-                            2. Connect each company/label to its correct percentage by looking at the visual layout
-                            3. Describe the market share distribution
-                            4. Identify trends (who has the largest/smallest share)
-                            5. Provide insights about the data
-
-                            Create a clear table showing: Company Name | Market Share %"""
-                        },
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/jpeg;base64,{base64_image}"
-                            }
-                        }
-                    ]
+                    "content": content      
                 }
             ],
             max_tokens=1500
@@ -92,7 +122,7 @@ class ChartsAssistant:
         
         for attempt in range(max_attempts):
             try:
-                result = self.client.get_read_result(operation_id)
+                result = self.vision_client.get_read_result(operation_id)
                 
                 if result.status == OperationStatusCodes.succeeded:
                     print(" ✓ Succeeded")
