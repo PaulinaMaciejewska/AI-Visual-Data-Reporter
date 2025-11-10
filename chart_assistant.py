@@ -25,12 +25,15 @@ class ChartsAssistant:
                 # Already base64
                 image_bytes_dict[filename] = base64.b64decode(image_data)
                 base64_images_dict[filename] = image_data
+                
 
         # Read operation for OCR from file
         print("Extracting text with OCR...")
         for filename, image_bytes in image_bytes_dict.items():
+            image_stream = io.BytesIO(image_bytes)
+            image_stream.seek(0) 
             read_result = self.vision_client.read_in_stream(
-                io.BytesIO(image_bytes),
+                image_stream,
                 raw=True
             )
         
