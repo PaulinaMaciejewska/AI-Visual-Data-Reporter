@@ -7,7 +7,7 @@ from azure.cognitiveservices.vision.computervision.models import OperationStatus
 
 class ChartsAssistant: 
     def __init__(self):
-        
+        Config.validate_env_variables()
         self.openai_client = Config.get_openai_client()
         self.vision_client = Config.get_vision_client()
     
@@ -92,8 +92,9 @@ class ChartsAssistant:
         
         for attempt in range(max_attempts):
             try:
-                result = self.client.get_read_result(operation_id)
-                
+                # Use the vision client created in __init__ to get the read result
+                result = self.vision_client.get_read_result(operation_id)
+
                 if result.status == OperationStatusCodes.succeeded:
                     print(" ✓ Succeeded")
                     return result

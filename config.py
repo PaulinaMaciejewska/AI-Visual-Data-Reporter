@@ -17,6 +17,15 @@ class Config:
     OPENAI_API_VERSION = os.getenv('OPENAI_API_VERSION', "2024-02-15-preview")
 
     @staticmethod
+    def validate_env_variables():
+        missing = []
+        for var in ['VISION_ENDPOINT', 'VISION_KEY', 'OPENAI_ENDPOINT', 'OPENAI_KEY', 'OPENAI_DEPLOYMENT_NAME']:
+            if not os.getenv(var):
+                missing.append(var)
+        if missing:
+            raise EnvironmentError(f"Missing required environment variables: {', '.join(missing)}")
+
+    @staticmethod
     def get_openai_client():
         return AzureOpenAI(
             azure_endpoint = Config.OPENAI_ENDPOINT, 
