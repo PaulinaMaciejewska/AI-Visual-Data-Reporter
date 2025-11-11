@@ -19,44 +19,53 @@ if "messages" not in st.session_state:
 # File uploader in sidebar
 with st.sidebar:
     st.header("📤 Upload Chart")
-    uploaded_file = st.file_uploader(
-        "Choose an image file",
+    uploaded_files = st.file_uploader(
+        "Choose image files",
         type=["png", "jpg", "jpeg"],
-        help="Upload a chart or graph image to analyze"
+        help="Upload chart or graph images to analyze",
+        accept_multiple_files=True
     )
 
-    if uploaded_file:
-        st.image(uploaded_file, caption="Uploaded Chart", use_container_width=True)
-        
-        if st.button("🔍 Analyze Chart", type="primary"):
-            uploaded_file.seek(0)
-            # Read image data
-            image_data = uploaded_file.read()
-            st.image(image_data, caption="Uploaded Chart", width='stretch')
+    if uploaded_files:
+        for uploaded_file in uploaded_files: 
+                st.image(uploaded_file, caption=f"Uploaded: {uploaded_file.name}", width='stretch')
+        if st.button("🔍 Analyze Charts", type="primary"):
             
-            # Add user message
-            st.session_state.messages.append({
-                "role": "user",
-                "content": f"Please analyze this chart: {uploaded_file.name}"
-            })
-            
-            # Show analyzing message
-            with st.spinner("Analyzing chart..."):
-                try:
-                    result = st.session_state.assistant.analyze_chart(image_data)
-                    st.session_state.last_analysis = result
+            async def analyze_all_charts():
+                files = []
+                for uploaded_file in uploaded_files: 
+
+                    uploaded_file.seek(0)
+                    # Read image data
+                    image_data = uploaded_file.read()   
+
+                    files.append((uploaded_file.name, image_data))
+
+                # Add user message
+                st.session_state.messages.append({
+                    "role": "user",
+                    "content": f"Please analyze these charts: {', '.join([f[0] for f in files])}"
+                })
+                            
                     
-                    st.session_state.messages.append({
-                        "role": "assistant",
-                        "content": result
-                    })
-                    
-                except Exception as e:
-                    st.session_state.messages.append({
-                        "role": "assistant",
-                        "content": f"❌ Error analyzing chart: {str(e)}"
-                    })
-            
+                # Show analyzing message
+                with st.spinner(f"Analyzing {len(uploaded_files)} chart..."):
+                    try:
+                        result = await st.session_state.assistant.analyze_chart(files)
+                        st.session_state.last_analysis = result
+                        
+                        st.session_state.messages.append({
+                            "role": "assistant",
+                            "content": result
+                        })
+                        
+                    except Exception as e:
+                        st.session_state.messages.append({
+                            "role": "assistant",
+                            "content": f"❌ Error analyzing chart: {str(e)}"
+                        })
+                        
+            asyncio.run(analyze_all_charts())
             st.rerun()
 
 for message in st.session_state.messages:
