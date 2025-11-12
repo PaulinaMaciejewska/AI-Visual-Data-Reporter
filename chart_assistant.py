@@ -151,7 +151,9 @@ class ChartsAssistant:
             messages=[
                 {
                     "role": "system",
-                    "content": "You are an expert assistant that helps users understand chart analyses."
+                    "content": """You are an expert at analyzing charts and graphs. 
+                    You can see the visual layout and understand which data points connect to which labels.
+                    Provide structured analysis with correct data associations."""
                 },
                 {
                     "role": "user",
