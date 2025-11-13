@@ -1,6 +1,7 @@
 import streamlit as st
 import asyncio
 from chart_assistant import ChartsAssistant
+import fitz # PyMuPDF
 
 st.title("📊 Chart Analysis Assistant")
 
@@ -21,14 +22,31 @@ with st.sidebar:
     st.header("📤 Upload Chart")
     uploaded_files = st.file_uploader(
         "Choose image files",
-        type=["png", "jpg", "jpeg"],
-        help="Upload chart or graph images to analyze",
+        type=["png", "jpg", "jpeg", "pdf"],
+        help="Upload chart or graph images (PNG, JPG, JPEG) or PDF reports to analyze",
         accept_multiple_files=True
     )
 
     if uploaded_files:
-        for uploaded_file in uploaded_files: 
-                st.image(uploaded_file, caption=f"Uploaded: {uploaded_file.name}", width='stretch')
+        for uploaded_file in uploaded_files:
+            file_name = uploaded_file.name.lower()
+
+            # Image preview
+            if file_name.endswith((".png", ".jpg", ".jpeg")):
+                st.image(uploaded_file, caption=f"Uploaded: {uploaded_file.name}", use_container_width=True)
+
+            # PDF preview
+            elif file_name.endswith(".pdf"):
+                st.write(f"📄 Uploaded: {uploaded_file.name}")
+                st.download_button(
+                    label="Download PDF",
+                    data=uploaded_file,
+                    file_name=uploaded_file.name,
+                    mime="application/pdf"
+                )
+                st.info("PDF preview not supported directly — it will be analyzed after clicking 'Analyze Charts'.")
+
+
         if st.button("🔍 Analyze Charts", type="primary"):
             
             async def analyze_all_charts():
@@ -41,17 +59,33 @@ with st.sidebar:
 
                     files.append((uploaded_file.name, image_data))
 
+                # Convert PDF pages to images if needed
+                converted_files = []
+
+                for filename, file_bytes in files:
+                    ext = filename.lower().split(".")[-1]
+
+                    if ext == "pdf":
+                        doc = fitz.open(stream=file_bytes, filetype="pdf")
+                        for page_num, page in enumerate(doc):
+                            pix = page.get_pixmap()
+                            img_bytes = pix.tobytes("jpg")
+                            converted_files.append((f"{filename[:-4]}_page_{page_num+1}.jpg", img_bytes))
+                    else:
+                        converted_files.append((filename, file_bytes))
+
+
                 # Add user message
                 st.session_state.messages.append({
                     "role": "user",
-                    "content": f"Please analyze these charts: {', '.join([f[0] for f in files])}"
+                    "content": f"Please analyze these charts: {', '.join([f[0] for f in converted_files])}"
                 })
                             
                     
                 # Show analyzing message
                 with st.spinner(f"Analyzing {len(uploaded_files)} chart..."):
                     try:
-                        result = await st.session_state.assistant.analyze_chart(files)
+                        result = await st.session_state.assistant.analyze_chart(converted_files)
                         st.session_state.last_analysis = result
                         
                         st.session_state.messages.append({

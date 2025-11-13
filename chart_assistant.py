@@ -2,6 +2,7 @@ import os
 import time
 import base64
 import io
+from unittest import result
 from config import Config
 from azure.cognitiveservices.vision.computervision.models import OperationStatusCodes
 
@@ -118,7 +119,7 @@ class ChartsAssistant:
         )
         
         return response.choices[0].message.content
-    
+
     def _poll_for_result(self, operation_id, max_attempts=30, poll_interval=1):
         """Poll for Read operation result"""
         print("   Polling for results...", end="", flush=True)

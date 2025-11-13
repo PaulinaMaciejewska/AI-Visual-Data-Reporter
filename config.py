@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 from openai import AzureOpenAI
 from azure.cognitiveservices.vision.computervision import ComputerVisionClient
 from msrest.authentication import CognitiveServicesCredentials
+from azure.ai.documentintelligence import DocumentIntelligenceClient
+from azure.core.credentials import AzureKeyCredential
 
 load_dotenv()
 
@@ -15,6 +17,8 @@ class Config:
     OPENAI_KEY = os.getenv('OPENAI_KEY')
     OPENAI_MODEL = os.getenv('OPENAI_DEPLOYMENT_NAME')
     OPENAI_API_VERSION = os.getenv('OPENAI_API_VERSION', "2024-02-15-preview")
+    DOCUMENT_INTELLIGENCE_ENDPOINT = os.getenv('DOCUMENT_INTELLIGENCE_ENDPOINT')
+    DOCUMENT_INTELLIGENCE_KEY = os.getenv('DOCUMENT_INTELLIGENCE_KEY')
 
     @staticmethod
     def validate_env_variables():
@@ -40,3 +44,9 @@ class Config:
             endpoint = Config.VISION_ENDPOINT, 
             credentials = credentials
         )
+
+    @staticmethod
+    def get_document_intelligence_client():
+        return DocumentIntelligenceClient(
+        endpoint=Config.DOCUMENT_INTELLIGENCE_ENDPOINT, credential=AzureKeyCredential(Config.DOCUMENT_INTELLIGENCE_KEY)
+    )
