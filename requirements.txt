@@ -6,3 +6,5 @@ azure-core
 azure-ai-agents
 azure-cognitiveservices-vision-computervision
 msrest
+azure-ai-documentintelligence
+pymupdf

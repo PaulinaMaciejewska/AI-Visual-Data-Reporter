@@ -2,6 +2,7 @@ import os
 import time
 import base64
 import io
+from unittest import result
 from config import Config
 from azure.cognitiveservices.vision.computervision.models import OperationStatusCodes
 
@@ -29,42 +30,45 @@ class ChartsAssistant:
 
         # Read operation for OCR from file
         print("Extracting text with OCR...")
+        counter = 0
         for filename, image_bytes in image_bytes_dict.items():
-            image_stream = io.BytesIO(image_bytes)
-            image_stream.seek(0) 
-            read_result = self.vision_client.read_in_stream(
-                image_stream,
-                raw=True
-            )
-        
-            # Extract operation ID
-            operation_id = read_result.headers["Operation-Location"].split("/")[-1]
+            if counter < 5:
+                image_stream = io.BytesIO(image_bytes)
+                image_stream.seek(0) 
+                read_result = self.vision_client.read_in_stream(
+                    image_stream,
+                    raw=True
+                )
             
-            print(f"Operation ID: {operation_id}")
-            # wait for the operation to complete
-            result = self._poll_for_result(operation_id)
-        
-            # Extracting text 
-            print(f"result: {result}")
-            analyze_result = result.get('analyze_result') if isinstance(result, dict) else result.analyze_result
+                # Extract operation ID
+                operation_id = read_result.headers["Operation-Location"].split("/")[-1]
+                
+                print(f"Operation ID: {operation_id}")
+                # wait for the operation to complete
+                result = self._poll_for_result(operation_id)
             
-            # Create a separate list for this file's text items
-            file_text_items = []
-            if analyze_result and hasattr(analyze_result, 'read_results'):
-                for page in analyze_result.read_results:
-                    for line in page.lines:
-                        file_text_items.append({
-                            'text': line.text,
-                            'bbox': line.bounding_box
-                        })
-            
-            # Extract text from THIS file only
-            extracted_text = "\n".join([item['text'] for item in file_text_items])
-            
-            print(f"Extracted Text for {filename}:\n{extracted_text}\n")
-            
-            # Now append to all_text_results as a tuple
-            all_text_results.append((filename, extracted_text))
+                # Extracting text 
+                print(f"result: {result}")
+                analyze_result = result.get('analyze_result') if isinstance(result, dict) else result.analyze_result
+                
+                # Create a separate list for this file's text items
+                file_text_items = []
+                if analyze_result and hasattr(analyze_result, 'read_results'):
+                    for page in analyze_result.read_results:
+                        for line in page.lines:
+                            file_text_items.append({
+                                'text': line.text,
+                                'bbox': line.bounding_box
+                            })
+                
+                # Extract text from THIS file only
+                extracted_text = "\n".join([item['text'] for item in file_text_items])
+                
+                print(f"Extracted Text for {filename}:\n{extracted_text}\n")
+                
+                # Now append to all_text_results as a tuple
+                all_text_results.append((filename, extracted_text))
+                counter += 1
             
         print("Analyzing with GPT-4 Vision...")
         
@@ -118,7 +122,7 @@ class ChartsAssistant:
         )
         
         return response.choices[0].message.content
-    
+
     def _poll_for_result(self, operation_id, max_attempts=30, poll_interval=1):
         """Poll for Read operation result"""
         print("   Polling for results...", end="", flush=True)
