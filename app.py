@@ -27,6 +27,26 @@ with st.sidebar:
         accept_multiple_files=True
     )
 
+    # Button to clear the chat
+    if len(st.session_state.messages) > 0:
+        if st.button("🗑️ Clear Chat"):
+            st.session_state.show_confirm_clear = True
+
+    # Confirmation of deletion of chat history
+    if st.session_state.get("show_confirm_clear", False):
+        st.info("Are you sure you want to clear the chat? This cannot be undone.")
+        col1, col2 = st.columns(2, gap="medium")
+        with col1:
+            if st.button("Yes", use_container_width=True):
+                st.session_state.messages = []
+                st.session_state.last_analysis = None
+                st.session_state.show_confirm_clear = False
+                st.rerun()
+        with col2:
+            if st.button("Cancel", use_container_width=True):
+                st.session_state.show_confirm_clear = False
+                st.rerun()
+                
     if uploaded_files:
         for uploaded_file in uploaded_files:
             file_name = uploaded_file.name.lower()
