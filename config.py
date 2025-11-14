@@ -3,8 +3,6 @@ from dotenv import load_dotenv
 from openai import AzureOpenAI
 from azure.cognitiveservices.vision.computervision import ComputerVisionClient
 from msrest.authentication import CognitiveServicesCredentials
-from azure.ai.documentintelligence import DocumentIntelligenceClient
-from azure.core.credentials import AzureKeyCredential
 
 load_dotenv()
 
