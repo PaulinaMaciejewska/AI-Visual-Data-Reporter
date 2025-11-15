@@ -33,7 +33,7 @@ AI-VISUAL-DATA-REPORTER/
 |
 └── 📂 tests                        
     ├── 📂📈 charts                 # Folder z przykładowymi plikami do testów
-    ├── 📊test_and_validation.py    # Plik z testami wyników analizy
+    ├── 📊 test_and_validation.py    # Plik z testami wyników analizy
     ├── 📊 test_cases.py            # Plik z informacjami o przypadkach testowych
     └── 📊 utilities.py             # Plik z funkcjami pomocniczymi do testów
 
@@ -122,11 +122,20 @@ Razem: ~25–30 wykresów.
 
 - Format: PNG  + przykłady w PDF
 
+### Testy i walidacja rozwiązania
+
+- Testy podzielono na dwie grupy ze względu na ich zaawansowanie: wykresy proste i wykresy bardziej złożone.
+
+Działanie testów z grupy pierwszej - przykładowy zrzut ekranu oraz nagranie:
+<img width="1639" height="819" alt="image" src="https://github.com/user-attachments/assets/a5bc1009-c310-4e9b-aacb-405e625e79f0" />
+https://drive.google.com/file/d/121Z1c-pCiEkWv66TfLavsvV1ZJBx2Uki/view?usp=sharing
+
 
 ### 📦 Podsumowanie
 
 ✅ Minimum: 20 wykresów (wersja skrócona, testowa)
 
 🌟 Optimum: 25–30 wykresów (pełny, dobrze wykonany zbiór)
+
 
 🚀 Ambitnie: 40 wykresów (do późniejszej walidacji modelu asynchronicznego)
