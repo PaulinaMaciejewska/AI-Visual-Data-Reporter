@@ -127,13 +127,15 @@ Razem: ~25–30 wykresów.
 - Format: PNG  + przykłady w PDF
 
 ### Testy i walidacja rozwiązania
+Testy podzielono na dwie grupy ze względu na ich zaawansowanie: wykresy proste i wykresy bardziej złożone.
 
-- Testy podzielono na dwie grupy ze względu na ich zaawansowanie: wykresy proste i wykresy bardziej złożone.
-
-Działanie testów z grupy pierwszej - przykładowy zrzut ekranu oraz nagranie:
+#### Działanie testów z grupy pierwszej - przykładowy zrzut ekranu oraz nagranie:
 <img width="1639" height="819" alt="image" src="https://github.com/user-attachments/assets/a5bc1009-c310-4e9b-aacb-405e625e79f0" />
 https://drive.google.com/file/d/121Z1c-pCiEkWv66TfLavsvV1ZJBx2Uki/view?usp=sharing
 
+####  Działanie testów z grupy drugiej
+- Poniżej przedstawiono typy wykresów, które zostaną użyte w testach poprawności rezultatów naszej aplikacji:
+<img width="374" height="487" alt="image" src="https://github.com/user-attachments/assets/2ddd2c52-1cd4-4ba2-ab5d-77479aafd6cc" />
 
 ### 📦 Podsumowanie
 
@@ -143,4 +145,5 @@ https://drive.google.com/file/d/121Z1c-pCiEkWv66TfLavsvV1ZJBx2Uki/view?usp=shari
 
 
 🚀 Ambitnie: 40 wykresów (do późniejszej walidacji modelu asynchronicznego)
+
 
