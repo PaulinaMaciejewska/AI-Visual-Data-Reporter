@@ -1,0 +1,65 @@
+{
+    "chart_type": "scatter plot",
+    "title": "Global Corporate",
+    "data_points": [
+        {
+            "label": "Gross Domestic Product",
+            "values": [
+                {
+                    "label": "GDP range",
+                    "value": "31.9 to 32.15"
+                },
+                {
+                    "label": "lnAI range",
+                    "value": "23.3 to 26.2"
+                }
+            ]
+        },
+        {
+            "label": "ICT Goods Export",
+            "values": [
+                {
+                    "label": "ICT export range",
+                    "value": "11.5 to 13.4"
+                },
+                {
+                    "label": "lnAI range",
+                    "value": "23.2 to 26.3"
+                }
+            ]
+        },
+        {
+            "label": "AI Patent Applications",
+            "values": [
+                {
+                    "label": "AI patent range",
+                    "value": "0 to ~13"
+                },
+                {
+                    "label": "lnAI range",
+                    "value": "23.2 to 26.0"
+                }
+            ]
+        },
+        {
+            "label": "Regulatory Quality",
+            "values": [
+                {
+                    "label": "Regulatory quality range",
+                    "value": "-0.10 to -0.06"
+                },
+                {
+                    "label": "lnAI range",
+                    "value": "23.1 to 26.3"
+                }
+            ]
+        }
+    ],
+    "trends": [
+        "All four scatterplots show a clear positive linear relationship between the input variable and ln(AI).",
+        "Higher GDP is associated with higher levels of AI development (lnAI).",
+        "Countries with greater ICT goods export also show significantly higher lnAI values, indicating strong integration of digital trade and AI advancement.",
+        "A higher number of AI patent applications correlates with substantially higher levels of AI activity.",
+        "Regulatory quality is positively associated with lnAI, suggesting that better governance environments support stronger AI development."
+    ]
+}

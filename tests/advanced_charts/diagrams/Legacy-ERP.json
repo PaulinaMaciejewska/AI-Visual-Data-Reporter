@@ -1,0 +1,31 @@
+{
+    "chart_type": "flow diagram",
+    "title": "Legacy ERP",
+    "data_points": [
+        {
+            "label": "Legacy ERP Systems",
+            "description": "Batch processing, rule-based, siloed"
+        },
+        {
+            "label": "Automation Era (ERP + RPA)",
+            "description": "Efficiency, standard workflows, reconciliations"
+        },
+        {
+            "label": "Cloud ERP Platforms",
+            "description": "Scalable, integrated, modular"
+        },
+        {
+            "label": "AI-Embedded Finance Architecture",
+            "description": "Compliance-by-design, fraud prevention, predictive forecasting"
+        },
+        {
+            "label": "Frameworks for Structured Adoption (DFRA™ & FAST™)",
+            "description": "Digital Finance Reference Architecture; Finance, Architecture, Strategy, Technology"
+        }
+    ],
+    "trends": [
+        "The diagram shows an evolutionary progression from legacy ERP systems toward AI-embedded finance architectures",
+        "Each stage increases integration, scalability, automation, and intelligence",
+        "Frameworks like DFRA™ and FAST™ support structured adoption of modern AI-driven finance architectures"
+    ]
+}

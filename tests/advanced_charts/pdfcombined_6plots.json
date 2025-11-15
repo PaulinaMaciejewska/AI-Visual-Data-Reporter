@@ -1,0 +1,399 @@
+{
+    "chart_type": "combined multi-plot document",
+    "title": "Combined 5 Plots",
+    "description": "PDF document containing 5 separate plots/charts",
+    "number_of_plots": 5,
+    "plots": [
+        {
+            "plot_number": 1,
+            "chart_type": "Hype Cycle",
+            "title": "Hype Cycle for Artificial Intelligence, 2024",
+            "data_points": {
+                "phases": [
+                    {
+                        "phase": "Innovation Trigger",
+                        "items": [
+                            {
+                                "name": "Autonomic Systems",
+                                "time_to_plateau": "5-10 yrs"
+                            },
+                            {
+                                "name": "Quantum AI",
+                                "time_to_plateau": ">10 yrs"
+                            },
+                            {
+                                "name": "First-Principles AI",
+                                "time_to_plateau": "2-5 yrs"
+                            },
+                            {
+                                "name": "Embodied AI",
+                                "time_to_plateau": "5-10 yrs"
+                            },
+                            {
+                                "name": "Multiagent Systems",
+                                "time_to_plateau": "5-10 yrs"
+                            },
+                            {
+                                "name": "AI Simulation",
+                                "time_to_plateau": "2-5 yrs"
+                            },
+                            {
+                                "name": "Causal AI",
+                                "time_to_plateau": "2-5 yrs"
+                            },
+                            {
+                                "name": "AI-Ready Data",
+                                "time_to_plateau": "2-5 yrs"
+                            },
+                            {
+                                "name": "Decision Intelligence",
+                                "time_to_plateau": "2-5 yrs"
+                            },
+                            {
+                                "name": "Neuro-Symbolic AI",
+                                "time_to_plateau": "2-5 yrs"
+                            }
+                        ]
+                    },
+                    {
+                        "phase": "Peak of Inflated Expectations",
+                        "items": [
+                            {
+                                "name": "Composite AI",
+                                "time_to_plateau": "<2 yrs"
+                            },
+                            {
+                                "name": "Artificial General Intelligence",
+                                "time_to_plateau": ">10 yrs"
+                            },
+                            {
+                                "name": "Sovereign AI",
+                                "time_to_plateau": "5-10 yrs"
+                            },
+                            {
+                                "name": "AI TRiSM",
+                                "time_to_plateau": "2-5 yrs"
+                            },
+                            {
+                                "name": "Prompt Engineering",
+                                "time_to_plateau": "2-5 yrs"
+                            },
+                            {
+                                "name": "Responsible AI",
+                                "time_to_plateau": "5-10 yrs"
+                            }
+                        ]
+                    },
+                    {
+                        "phase": "Trough of Disillusionment",
+                        "items": [
+                            {
+                                "name": "AI Engineering",
+                                "time_to_plateau": "2-5 yrs"
+                            },
+                            {
+                                "name": "Edge AI",
+                                "time_to_plateau": "5-10 yrs"
+                            },
+                            {
+                                "name": "Foundation Models",
+                                "time_to_plateau": "5-10 yrs"
+                            },
+                            {
+                                "name": "Synthetic Data",
+                                "time_to_plateau": "2-5 yrs"
+                            },
+                            {
+                                "name": "ModelOps",
+                                "time_to_plateau": "2-5 yrs"
+                            },
+                            {
+                                "name": "Generative AI",
+                                "time_to_plateau": "5-10 yrs"
+                            },
+                            {
+                                "name": "Neuromorphic Computing",
+                                "time_to_plateau": "5-10 yrs"
+                            },
+                            {
+                                "name": "Smart Robots",
+                                "time_to_plateau": "5-10 yrs"
+                            },
+                            {
+                                "name": "Cloud AI Services",
+                                "time_to_plateau": "<2 yrs"
+                            }
+                        ]
+                    },
+                    {
+                        "phase": "Slope of Enlightenment",
+                        "items": [
+                            {
+                                "name": "Autonomous Vehicles",
+                                "time_to_plateau": "5-10 yrs"
+                            },
+                            {
+                                "name": "Knowledge Graphs",
+                                "time_to_plateau": "2-5 yrs"
+                            },
+                            {
+                                "name": "Intelligent Applications",
+                                "time_to_plateau": "2-5 yrs"
+                            }
+                        ]
+                    },
+                    {
+                        "phase": "Plateau of Productivity",
+                        "items": [
+                            {
+                                "name": "Computer Vision",
+                                "time_to_plateau": "<2 yrs"
+                            }
+                        ]
+                    }
+                ],
+                "trends": [
+                    "Emerging AI technologies cluster in early stages, indicating rapid experimentation.",
+                    "Most impactful innovations (AGI, foundation models) have long time-to-plateau (>10 years).",
+                    "Applied AI capabilities (computer vision, cloud AI services) are maturing fastest.",
+                    "Governance, safety, and scaling frameworks (AI TRiSM, ModelOps) gaining importance."
+                ]
+            }
+        },
+        {
+            "plot_number": 2,
+            "chart_type": "Bar Chart (Horizontal)",
+            "title": "Level of Risk / Impact of Skills Deficit",
+            "data_points": {
+                "values": [
+                    {
+                        "industry_function": "Manager Research",
+                        "relative_risk": "Highest"
+                    },
+                    {
+                        "industry_function": "Investment Managers",
+                        "relative_risk": "High"
+                    },
+                    {
+                        "industry_function": "Data Services",
+                        "relative_risk": "Moderate"
+                    },
+                    {
+                        "industry_function": "Consultants",
+                        "relative_risk": "Lower"
+                    },
+                    {
+                        "industry_function": "Asset Allocators",
+                        "relative_risk": "Lowest"
+                    }
+                ],
+                "trends": [
+                    "Highest skill deficit risks appear in research-intensive functions.",
+                    "Operational and advisory functions show lower sensitivity to skill shortages.",
+                    "Risk decreases steadily moving from analytical to strategic/allocative roles."
+                ]
+            }
+        },
+        {
+            "plot_number": 3,
+            "chart_type": "Doughnut Chart",
+            "title": "Global Machine Learning Market Share by End-Use Industry",
+            "data_points": {
+                "values": [
+                    {
+                        "industry": "IT and telecommunications",
+                        "value": 19
+                    },
+                    {
+                        "industry": "Banking, financial services, and insurance",
+                        "value": 18
+                    },
+                    {
+                        "industry": "Automotive and transport",
+                        "value": 14
+                    },
+                    {
+                        "industry": "Healthcare",
+                        "value": 12
+                    },
+                    {
+                        "industry": "Retail",
+                        "value": 12
+                    },
+                    {
+                        "industry": "Manufacturing",
+                        "value": 10
+                    },
+                    {
+                        "industry": "Advertising and media",
+                        "value": 8
+                    },
+                    {
+                        "industry": "Others",
+                        "value": 8
+                    }
+                ],
+                "trends": [
+                    "Strong concentration in IT, finance, and automotive sectors.",
+                    "Healthcare and retail show rapid growth potential in ML adoption.",
+                    "Manufacturing and media have smaller shares but rising interest.",
+                    "Market is diversified with no single industry exceeding 20%."
+                ]
+            }
+        },
+        {
+            "plot_number": 4,
+            "chart_type": "Bar Chart (Comparative)",
+            "title": "Comparative Analysis of ML vs Traditional Methods in Cloud Resource Prediction",
+            "data_points": {
+                "values": [
+                    {
+                        "metric": "Resource Misalignment Detection Rate",
+                        "ml_value": 79.30
+                    },
+                    {
+                        "metric": "Compute Instance Cost Savings",
+                        "ml_value": 26.20
+                    },
+                    {
+                        "metric": "Storage Resource Cost Savings",
+                        "ml_value": 23.80
+                    },
+                    {
+                        "metric": "Organizations Reporting Performance Improvement",
+                        "ml_value": 31.0
+                    },
+                    {
+                        "metric": "Average Cloud Expenditure Reduction",
+                        "ml_value": 23.80
+                    },
+                    {
+                        "metric": "Database Utilization (Underused Instance)",
+                        "ml_value": 17.30
+                    },
+                    {
+                        "metric": "Traditional Methods Prediction Accuracy",
+                        "traditional_value": 58.20
+                    },
+                    {
+                        "metric": "ML Prediction Accuracy (Daily Resources)",
+                        "ml_value": 91.70
+                    },
+                    {
+                        "metric": "Average Cloud Cost Reduction",
+                        "ml_value": 27.40
+                    }
+                ],
+                "trends": [
+                    "Machine learning consistently outperforms traditional methods in prediction accuracy.",
+                    "ML adoption delivers double-digit percentage cost savings in cloud environments.",
+                    "Strongest improvements come from misalignment detection and daily resource forecasting.",
+                    "Traditional prediction methods lag substantially behind ML-driven approaches."
+                ]
+            }
+        },
+        {
+            "plot_number": 5,
+            "chart_type": "Concept Map",
+            "title": "What Comes After AI? Autonomous Business",
+            "data_points": {
+                "components": [
+                    {
+                        "component": "Autonomous operations",
+                        "description": "Self-improving automated operations"
+                    },
+                    {
+                        "component": "Augmented workforce",
+                        "description": "Humans augmented with autonomous tools"
+                    },
+                    {
+                        "component": "Autoadapting products",
+                        "description": "Products that adapt using AI"
+                    },
+                    {
+                        "central_concept": "Machine Customers"
+                    },
+                    {
+                        "outer_context": "Programmable Economy"
+                    }
+                ],
+                "trends": [
+                    "Shift from AI-assisted processes to autonomous decision-making.",
+                    "Rise of machine customers introduces new economic agents.",
+                    "Human roles move toward oversight and augmentation rather than direct execution.",
+                    "Organizations evolve toward self-optimizing, self-configuring operations."
+                ]
+            }
+        },
+        {
+            "plot_number": 6,
+            "chart_type": "Bar + Line Chart",
+            "title": "Global FinTech vs VC Funding (2010–2020)",
+            "data_points": {
+                "values": [
+                    {
+                        "year": 2010,
+                        "fintech_funding_billion_usd": 2.0,
+                        "vc_funding_billion_usd": 50
+                    },
+                    {
+                        "year": 2011,
+                        "fintech_funding_billion_usd": 4.0,
+                        "vc_funding_billion_usd": 60
+                    },
+                    {
+                        "year": 2012,
+                        "fintech_funding_billion_usd": 6.0,
+                        "vc_funding_billion_usd": 70
+                    },
+                    {
+                        "year": 2013,
+                        "fintech_funding_billion_usd": 8.0,
+                        "vc_funding_billion_usd": 90
+                    },
+                    {
+                        "year": 2014,
+                        "fintech_funding_billion_usd": 35,
+                        "vc_funding_billion_usd": 120
+                    },
+                    {
+                        "year": 2015,
+                        "fintech_funding_billion_usd": 70,
+                        "vc_funding_billion_usd": 150
+                    },
+                    {
+                        "year": 2016,
+                        "fintech_funding_billion_usd": 85,
+                        "vc_funding_billion_usd": 180
+                    },
+                    {
+                        "year": 2017,
+                        "fintech_funding_billion_usd": 70,
+                        "vc_funding_billion_usd": 200
+                    },
+                    {
+                        "year": 2018,
+                        "fintech_funding_billion_usd": 150,
+                        "vc_funding_billion_usd": 350
+                    },
+                    {
+                        "year": 2019,
+                        "fintech_funding_billion_usd": 220,
+                        "vc_funding_billion_usd": 360
+                    },
+                    {
+                        "year": 2020,
+                        "fintech_funding_billion_usd": 140,
+                        "vc_funding_billion_usd": 390
+                    }
+                ],
+                "trends": [
+                    "FinTech funding grew exponentially between 2010–2019.",
+                    "2018–2019 marked the peak phase of investment before a correction in 2020.",
+                    "VC funding grew steadily with no downturn, even during economic volatility.",
+                    "FinTech funding has higher year-to-year volatility than general VC funding."
+                ]
+            }
+        }
+    ]
+}

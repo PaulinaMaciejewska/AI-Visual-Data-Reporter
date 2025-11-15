@@ -1,0 +1,56 @@
+{
+    "chart_type": "dual line charts",
+    "title": "Antropic",
+    "data_points": {
+        "automation_vs_augmentation": [
+            {
+                "label": "V1",
+                "automation": 41.1,
+                "augmentation": 55.5
+            },
+            {
+                "label": "V2",
+                "automation": 41.7,
+                "augmentation": 55.1
+            },
+            {
+                "label": "V3",
+                "automation": 49.1,
+                "augmentation": 47.0
+            }
+        ],
+        "interaction_types": [
+            {
+                "label": "V1",
+                "directive": 27,
+                "task_iteration": 30,
+                "learning": 22,
+                "feedback_loop": 12,
+                "validation": 1
+            },
+            {
+                "label": "V2",
+                "directive": 29,
+                "task_iteration": 26,
+                "learning": 24,
+                "feedback_loop": 10,
+                "validation": 2
+            },
+            {
+                "label": "V3",
+                "directive": 39,
+                "task_iteration": 21,
+                "learning": 20,
+                "feedback_loop": 8,
+                "validation": 2
+            }
+        ]
+    },
+    "trends": [
+        "Automation increases steadily over versions, surpassing augmentation by V3",
+        "Augmentation declines over time, dropping below automation in V3",
+        "Directive interactions grow sharply, becoming the dominant interaction type by V3",
+        "Task iteration and learning interactions both decrease across versions",
+        "Feedback loop interactions decline slightly, while validation remains very low throughout"
+    ]
+}

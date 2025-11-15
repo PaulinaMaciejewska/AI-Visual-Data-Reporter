@@ -1,0 +1,455 @@
+{
+    "chart_type": "combined multi-plot document",
+    "title": "Combined 3 Plots",
+    "description": "PDF document containing 3 separate plots/charts",
+    "number_of_plots": 3,
+    "plots": [
+        {
+            "plot_number": 1,
+            "chart_type": "Hype Cycle / Curve Plot",
+            "title": "Hype Cycle for Artificial Intelligence, 2024",
+            "data_points": [
+                {
+                    "phase": "Innovation Trigger",
+                    "items": [
+                        {
+                            "name": "Autonomic Systems",
+                            "plateau_time": ">10 yrs"
+                        },
+                        {
+                            "name": "Quantum AI",
+                            "plateau_time": ">10 yrs"
+                        },
+                        {
+                            "name": "First-Principles AI",
+                            "plateau_time": "5–10 yrs"
+                        },
+                        {
+                            "name": "Embodied AI",
+                            "plateau_time": "5–10 yrs"
+                        },
+                        {
+                            "name": "Multiagent Systems",
+                            "plateau_time": "5–10 yrs"
+                        },
+                        {
+                            "name": "AI Simulation",
+                            "plateau_time": "2–5 yrs"
+                        },
+                        {
+                            "name": "Causal AI",
+                            "plateau_time": "2–5 yrs"
+                        },
+                        {
+                            "name": "AI-Ready Data",
+                            "plateau_time": "2–5 yrs"
+                        },
+                        {
+                            "name": "Decision Intelligence",
+                            "plateau_time": "2–5 yrs"
+                        },
+                        {
+                            "name": "Neuro-Symbolic AI",
+                            "plateau_time": "2–5 yrs"
+                        },
+                        {
+                            "name": "Artificial General Intelligence",
+                            "plateau_time": ">10 yrs"
+                        },
+                        {
+                            "name": "Composite AI",
+                            "plateau_time": "<2 yrs"
+                        },
+                        {
+                            "name": "Sovereign AI",
+                            "plateau_time": "5–10 yrs"
+                        },
+                        {
+                            "name": "AI TRiSM",
+                            "plateau_time": "<2 yrs"
+                        },
+                        {
+                            "name": "Prompt Engineering",
+                            "plateau_time": "2–5 yrs"
+                        },
+                        {
+                            "name": "Responsible AI",
+                            "plateau_time": "2–5 yrs"
+                        }
+                    ]
+                },
+                {
+                    "phase": "Peak of Inflated Expectations",
+                    "items": [
+                        {
+                            "name": "AI Engineering",
+                            "plateau_time": "2–5 yrs"
+                        },
+                        {
+                            "name": "Edge AI",
+                            "plateau_time": "2–5 yrs"
+                        },
+                        {
+                            "name": "Foundation Models",
+                            "plateau_time": "5–10 yrs"
+                        },
+                        {
+                            "name": "Synthetic Data",
+                            "plateau_time": "5–10 yrs"
+                        },
+                        {
+                            "name": "ModelOps",
+                            "plateau_time": "<2 yrs"
+                        },
+                        {
+                            "name": "Generative AI",
+                            "plateau_time": "2–5 yrs"
+                        },
+                        {
+                            "name": "Neuromorphic Computing",
+                            "plateau_time": ">10 yrs"
+                        },
+                        {
+                            "name": "Smart Robots",
+                            "plateau_time": "5–10 yrs"
+                        }
+                    ]
+                },
+                {
+                    "phase": "Trough of Disillusionment",
+                    "items": [
+                        {
+                            "name": "Cloud AI Services",
+                            "plateau_time": "<2 yrs"
+                        }
+                    ]
+                },
+                {
+                    "phase": "Slope of Enlightenment",
+                    "items": [
+                        {
+                            "name": "Autonomous Vehicles",
+                            "plateau_time": "5–10 yrs"
+                        },
+                        {
+                            "name": "Knowledge Graphs",
+                            "plateau_time": "<2 yrs"
+                        },
+                        {
+                            "name": "Intelligent Applications",
+                            "plateau_time": "2–5 yrs"
+                        }
+                    ]
+                },
+                {
+                    "phase": "Plateau of Productivity",
+                    "items": [
+                        {
+                            "name": "Computer Vision",
+                            "plateau_time": "<2 yrs"
+                        }
+                    ]
+                }
+            ],
+            "trends": [
+                "Most early-stage innovations have long development horizons (>5 years), highlighting significant technical complexity.",
+                "Fastest-moving areas include Composite AI, ModelOps, Cloud AI Services, and Computer Vision.",
+                "Foundation models, sovereign AI, and neuromorphic computing remain hyped but have long paths to maturity.",
+                "Governance, safety, and scalable engineering practices are moving rapidly up the cycle."
+            ]
+        },
+        {
+            "plot_number": 2,
+            "chart_type": "Line Chart (two panels)",
+            "title": "Automation vs. Augmentation Evolution",
+            "data_points": [
+                {
+                    "panel": "Automation vs. augmentation trends",
+                    "series": [
+                        {
+                            "name": "Automation",
+                            "values": [
+                                {
+                                    "version": "V1",
+                                    "percentage": 41.1
+                                },
+                                {
+                                    "version": "V2",
+                                    "percentage": 41.7
+                                },
+                                {
+                                    "version": "V3",
+                                    "percentage": 49.1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Augmentation",
+                            "values": [
+                                {
+                                    "version": "V1",
+                                    "percentage": 55.5
+                                },
+                                {
+                                    "version": "V2",
+                                    "percentage": 55.1
+                                },
+                                {
+                                    "version": "V3",
+                                    "percentage": 47.0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "panel": "Individual interaction types",
+                    "series": [
+                        {
+                            "name": "Directive",
+                            "values": [
+                                {
+                                    "version": "V1",
+                                    "percentage": 27
+                                },
+                                {
+                                    "version": "V2",
+                                    "percentage": 26
+                                },
+                                {
+                                    "version": "V3",
+                                    "percentage": 39
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Task iteration",
+                            "values": [
+                                {
+                                    "version": "V1",
+                                    "percentage": 30
+                                },
+                                {
+                                    "version": "V2",
+                                    "percentage": 25
+                                },
+                                {
+                                    "version": "V3",
+                                    "percentage": 21
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Learning",
+                            "values": [
+                                {
+                                    "version": "V1",
+                                    "percentage": 22
+                                },
+                                {
+                                    "version": "V2",
+                                    "percentage": 23
+                                },
+                                {
+                                    "version": "V3",
+                                    "percentage": 20
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Feedback loop",
+                            "values": [
+                                {
+                                    "version": "V1",
+                                    "percentage": 12
+                                },
+                                {
+                                    "version": "V2",
+                                    "percentage": 10
+                                },
+                                {
+                                    "version": "V3",
+                                    "percentage": 9
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Validation",
+                            "values": [
+                                {
+                                    "version": "V1",
+                                    "percentage": 1
+                                },
+                                {
+                                    "version": "V2",
+                                    "percentage": 2
+                                },
+                                {
+                                    "version": "V3",
+                                    "percentage": 3
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "trends": [
+                "Automation is increasing over time, surpassing augmentation by V3.",
+                "Augmentation decreases notably from V2 to V3, suggesting a shift toward more automated workflows.",
+                "Directive-style interactions rise sharply, becoming the dominant interaction mode in V3.",
+                "Task iteration, learning, and feedback interactions steadily decline, indicating reduced human-in-the-loop operations.",
+                "Validation grows but remains a very small interaction category overall."
+            ]
+        },
+        {
+            "plot_number": 3,
+            "chart_type": "Multi-panel Line Charts",
+            "title": "Usage Share Trends Across Economic Index Reports (V1 to V3)",
+            "data_points": [
+                {
+                    "category": "Computer and Mathematical",
+                    "values": [
+                        {
+                            "date": "Jan 2025",
+                            "percentage": 37.2
+                        },
+                        {
+                            "date": "Mar 2025",
+                            "percentage": 39.6
+                        },
+                        {
+                            "date": "Aug 2025",
+                            "percentage": 36.9
+                        }
+                    ]
+                },
+                {
+                    "category": "Arts, Design, Entertainment, Sports, and Media",
+                    "values": [
+                        {
+                            "date": "Jan 2025",
+                            "percentage": 10.2
+                        },
+                        {
+                            "date": "Mar 2025",
+                            "percentage": 9.4
+                        },
+                        {
+                            "date": "Aug 2025",
+                            "percentage": 8.5
+                        }
+                    ]
+                },
+                {
+                    "category": "Educational Instruction and Library",
+                    "values": [
+                        {
+                            "date": "Jan 2025",
+                            "percentage": 9.3
+                        },
+                        {
+                            "date": "Mar 2025",
+                            "percentage": 11.0
+                        },
+                        {
+                            "date": "Aug 2025",
+                            "percentage": 12.7
+                        }
+                    ]
+                },
+                {
+                    "category": "Office and Administrative Support",
+                    "values": [
+                        {
+                            "date": "Jan 2025",
+                            "percentage": 7.8
+                        },
+                        {
+                            "date": "Mar 2025",
+                            "percentage": 7.0
+                        },
+                        {
+                            "date": "Aug 2025",
+                            "percentage": 8.4
+                        }
+                    ]
+                },
+                {
+                    "category": "Life, Physical, and Social Science",
+                    "values": [
+                        {
+                            "date": "Jan 2025",
+                            "percentage": 6.3
+                        },
+                        {
+                            "date": "Mar 2025",
+                            "percentage": 6.8
+                        },
+                        {
+                            "date": "Aug 2025",
+                            "percentage": 7.4
+                        }
+                    ]
+                },
+                {
+                    "category": "Business and Financial Operations",
+                    "values": [
+                        {
+                            "date": "Jan 2025",
+                            "percentage": 5.9
+                        },
+                        {
+                            "date": "Mar 2025",
+                            "percentage": 4.4
+                        },
+                        {
+                            "date": "Aug 2025",
+                            "percentage": 3.1
+                        }
+                    ]
+                },
+                {
+                    "category": "Architecture and Engineering",
+                    "values": [
+                        {
+                            "date": "Jan 2025",
+                            "percentage": 4.7
+                        },
+                        {
+                            "date": "Mar 2025",
+                            "percentage": 3.8
+                        },
+                        {
+                            "date": "Aug 2025",
+                            "percentage": 2.5
+                        }
+                    ]
+                },
+                {
+                    "category": "Management",
+                    "values": [
+                        {
+                            "date": "Jan 2025",
+                            "percentage": 4.5
+                        },
+                        {
+                            "date": "Mar 2025",
+                            "percentage": 3.1
+                        },
+                        {
+                            "date": "Aug 2025",
+                            "percentage": 2.7
+                        }
+                    ]
+                }
+            ],
+            "trends": [
+                "STEM-heavy fields (Computer & Mathematical; Life & Physical Sciences) maintain the highest usage and overall stability.",
+                "Arts and Media occupations show a steady decline, suggesting reduced reliance or displacement effects.",
+                "Educational and Library roles trend upward consistently, showing increasing adoption and integration.",
+                "Business, Finance, Architecture, Engineering, and Management roles decline significantly across all periods.",
+                "Usage share polarization increases: technical/scientific sectors rise while administrative and managerial sectors shrink."
+            ]
+        }
+    ]
+}
