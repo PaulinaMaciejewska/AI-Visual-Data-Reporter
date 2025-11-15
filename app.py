@@ -37,6 +37,9 @@ with st.sidebar:
 
             # PDF preview
             elif file_name.endswith(".pdf"):
+                pdf_bytes = uploaded_file.read()
+                first_page = fitz.open(stream=pdf_bytes, filetype="pdf")[0]
+                st.image(first_page.get_pixmap().tobytes("png"), caption=f"Uploaded: {uploaded_file.name}", use_container_width=True)
                 st.write(f"📄 Uploaded: {uploaded_file.name}")
                 st.download_button(
                     label="Download PDF",
