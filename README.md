@@ -15,7 +15,6 @@ Celem projektu było stworzenie systemu, który opisuje wykresy z raportów (PNG
 
 **Efekt:** system wyjaśniający raporty wizualne (np. „Wykres pokazuje wzrost sprzedaży w Q2 o 15%").
 
-
 ## 🏗️ Struktura Projektu
 
 ```
@@ -55,6 +54,11 @@ python -m venv .venv
 pip install -r requirements.txt 
 streamlit run app.py --server.port 8202
 ```
+
+Poniżej znajduje się przykładowy zrzut ekranu oraz link do dysku z nagraniem przedstawiającym zapytanie do naszego asystenta oraz jego odpowiedź.
+Na nagraniu i zdjęciu zaprezentowano jego działanie na przykładowym wykresie.
+<img width="1819" height="874" alt="image" src="https://github.com/user-attachments/assets/759f91b1-912e-4185-a651-e71b86b6bc7e" />
+https://drive.google.com/file/d/1yzIft0ywEZVOZlIuaVvI1KwqYzyVW4dF/view?usp=sharing
 
 ## Informacje o zbiorach plików
 
@@ -139,3 +143,4 @@ https://drive.google.com/file/d/121Z1c-pCiEkWv66TfLavsvV1ZJBx2Uki/view?usp=shari
 
 
 🚀 Ambitnie: 40 wykresów (do późniejszej walidacji modelu asynchronicznego)
+
