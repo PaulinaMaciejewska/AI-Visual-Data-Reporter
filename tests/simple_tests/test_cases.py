@@ -1,6 +1,6 @@
 test_cases = [
     {
-        "image_path": "tests/charts/bar_chart_sales.png",
+        "image_path": "tests\simple_tests\simple_charts/bar_chart_sales.png", 
         "expected": {
             "chart_type": "bar chart",
             "data_points": [
@@ -14,7 +14,7 @@ test_cases = [
     },
 
     {
-        "image_path": "tests/charts/pie_chart_market_share.png",
+        "image_path": "tests\simple_tests\simple_charts\pie_chart_market_share.png",
         "expected": {
             "chart_type": "pie chart",
             "data_points": [
@@ -26,7 +26,7 @@ test_cases = [
         }
     },
     {
-        "image_path": "tests/charts/line_chart_growth.png",
+        "image_path": "tests\simple_tests\simple_charts\line_chart_growth.png",
         "expected": {
             "chart_type": "line chart",
             "data_points": [

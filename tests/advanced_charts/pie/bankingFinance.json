@@ -1,0 +1,44 @@
+{
+    "chart_type": "pie chart",
+    "title": "Banking Finance",
+    "data_points": [
+        {
+            "label": "IT and telecommunications",
+            "value": 19
+        },
+        {
+            "label": "Banking, financial services, and insurance",
+            "value": 18
+        },
+        {
+            "label": "Automotive and transport",
+            "value": 14
+        },
+        {
+            "label": "Healthcare",
+            "value": 12
+        },
+        {
+            "label": "Retail",
+            "value": 12
+        },
+        {
+            "label": "Manufacturing",
+            "value": 10
+        },
+        {
+            "label": "Advertising and media",
+            "value": 8
+        },
+        {
+            "label": "Others",
+            "value": 8
+        }
+    ],
+    "trends": [
+        "IT and telecommunications holds the largest share of global machine learning usage.",
+        "Banking, financial services, and insurance is the second-largest user of machine learning at 18%.",
+        "Automotive and transport, healthcare, and retail represent strong mid-range adoption levels.",
+        "Manufacturing has moderate adoption, while advertising/media and the 'Others' category remain the smallest segments."
+    ]
+}

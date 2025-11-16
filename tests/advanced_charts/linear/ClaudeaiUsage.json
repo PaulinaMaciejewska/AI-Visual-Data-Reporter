@@ -1,0 +1,149 @@
+{
+    "chart_type": "line chart",
+    "title": "Claude AI Usage",
+    "data_points": [
+        {
+            "label": "Computer and Mathematical",
+            "values": [
+                {
+                    "label": "Jan 2025",
+                    "value": 37.2
+                },
+                {
+                    "label": "Mar 2025",
+                    "value": 39.6
+                },
+                {
+                    "label": "Aug 2025",
+                    "value": 36.9
+                }
+            ]
+        },
+        {
+            "label": "Arts, Design, Entertainment, Sports, and Media",
+            "values": [
+                {
+                    "label": "Jan 2025",
+                    "value": 10.2
+                },
+                {
+                    "label": "Mar 2025",
+                    "value": 9.4
+                },
+                {
+                    "label": "Aug 2025",
+                    "value": 8.5
+                }
+            ]
+        },
+        {
+            "label": "Educational Instruction and Library",
+            "values": [
+                {
+                    "label": "Jan 2025",
+                    "value": 9.3
+                },
+                {
+                    "label": "Mar 2025",
+                    "value": 11.0
+                },
+                {
+                    "label": "Aug 2025",
+                    "value": 12.7
+                }
+            ]
+        },
+        {
+            "label": "Office and Administrative Support",
+            "values": [
+                {
+                    "label": "Jan 2025",
+                    "value": 7.8
+                },
+                {
+                    "label": "Mar 2025",
+                    "value": 7.0
+                },
+                {
+                    "label": "Aug 2025",
+                    "value": 8.4
+                }
+            ]
+        },
+        {
+            "label": "Life, Physical, and Social Science",
+            "values": [
+                {
+                    "label": "Jan 2025",
+                    "value": 6.3
+                },
+                {
+                    "label": "Mar 2025",
+                    "value": 6.8
+                },
+                {
+                    "label": "Aug 2025",
+                    "value": 7.4
+                }
+            ]
+        },
+        {
+            "label": "Business and Financial Operations",
+            "values": [
+                {
+                    "label": "Jan 2025",
+                    "value": 5.9
+                },
+                {
+                    "label": "Mar 2025",
+                    "value": 4.4
+                },
+                {
+                    "label": "Aug 2025",
+                    "value": 3.1
+                }
+            ]
+        },
+        {
+            "label": "Architecture and Engineering",
+            "values": [
+                {
+                    "label": "Jan 2025",
+                    "value": 4.7
+                },
+                {
+                    "label": "Mar 2025",
+                    "value": 3.8
+                },
+                {
+                    "label": "Aug 2025",
+                    "value": 2.5
+                }
+            ]
+        },
+        {
+            "label": "Management",
+            "values": [
+                {
+                    "label": "Jan 2025",
+                    "value": 4.5
+                },
+                {
+                    "label": "Mar 2025",
+                    "value": 3.1
+                },
+                {
+                    "label": "Aug 2025",
+                    "value": 2.7
+                }
+            ]
+        }
+    ],
+    "trends": [
+        "Computer and Mathematical usage peaks in Mar 2025 before slightly declining.",
+        "Educational Instruction and Library shows a consistent upward trend across all three reports.",
+        "Arts & Media, Business & Financial Operations, Architecture & Engineering, and Management exhibit steady declines.",
+        "Office & Administrative Support dips in Mar 2025 but rises again in Aug 2025.",
+        "Life, Physical, and Social Science increases gradually over time."
+    ]
+}
