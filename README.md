@@ -155,7 +155,7 @@ https://drive.google.com/file/d/1aqZ-FCZqBr4ezDGEhYs-kBegjoBp3y_Z/view?usp=shari
 - Wyniki testów:
 <img width="910" height="874" alt="image" src="https://github.com/user-attachments/assets/e0863a9b-3b33-4bd6-91cb-3162a7bbfa9f" />
 
-Testy pdf'ów złożonych z kilku wykresów w jednym pliku zostały przetestowane manualnie (Patrz: [Jump to Uruchomienie aplikacji](#uruchomienie-id))
+Testy pdf'ów złożonych z kilku wykresów w jednym pliku (tj. [5] i [6]) zostały przetestowane manualnie (Patrz: [Uruchomienie aplikacji](#uruchomienie-id))
 
 
 ### 📦 Podsumowanie
@@ -166,6 +166,7 @@ Testy pdf'ów złożonych z kilku wykresów w jednym pliku zostały przetestowan
 
 
 🚀 Ambitnie: 40 wykresów (do późniejszej walidacji modelu asynchronicznego)
+
 
 
 
