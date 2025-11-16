@@ -31,10 +31,16 @@ AI-VISUAL-DATA-REPORTER/
 ├── 📝 app.py                       # Główny plik aplikacji Streamlit z interfejsem użytkownika do uploadu i analizy wykresów (obrazy + PDF).
 |
 └── 📂 tests                        
-    ├── 📂📈 charts                 # Folder z przykładowymi plikami do testów
-    ├── 📊 test_and_validation.py    # Plik z testami wyników analizy
-    ├── 📊 test_cases.py            # Plik z informacjami o przypadkach testowych
-    └── 📊 utilities.py             # Plik z funkcjami pomocniczymi do testów
+    ├── 📂📈 advanced_charts                         # Folder z przykładowymi plikami do testów (bardziej złożone)
+    ├── 📂 advanced_tests 
+    │   ├── 📊 load_advanced_test_cases.py            # Plik do ładowania wykresów i ich opisów
+    │   ├── 📊 run_chart_analysis_tests.py            # Plik z testami i funkcjami pomocniczymi do testów
+    │   └── 📄 test_results.json                      # Plik z rezultatami testów sekcji złożonych wykresów
+    └── 📂 simple_tests
+        ├── 📂📈 simple_charts                       # Folder z przykładowymi plikami do testów (mniej złożone)
+        ├── 📊 run_test_and_validation.py            # Plik z testami wyników analizy
+        ├── 📊 test_cases.py                         # Plik z informacjami o przypadkach testowych
+        └── 📊 utilities.py                          # Plik z funkcjami pomocniczymi do testów
 
 ```
 
@@ -46,7 +52,7 @@ Przygotowano prosty interfejs z wykorzystaniem Streamlit (plik app.py), który u
 
 Wstępnie przetworzone obrazy są następnie przekazywane do klasy ChartsAssistant (z pliku chart_assistant.py), gdzie wykorzystano Azure Computer Vision OCR do ekstrakcji danych oraz GPT-4 Vision do analizy wizualne i interpretacji. Dodano również możliwość uzyskania kontekstowych odpowiedzi na pytania użytkownika odnośnie wgranych plików.
 
-## Uruchomienie aplikacji
+## Uruchomienie aplikacji <a id="uruchomienie-id"></a>
 
 ```
 python -m venv .venv
@@ -59,6 +65,11 @@ Poniżej znajduje się przykładowy zrzut ekranu oraz link do dysku z nagraniem 
 Na nagraniu i zdjęciu zaprezentowano jego działanie na przykładowym wykresie.
 <img width="1819" height="874" alt="image" src="https://github.com/user-attachments/assets/759f91b1-912e-4185-a651-e71b86b6bc7e" />
 https://drive.google.com/file/d/1yzIft0ywEZVOZlIuaVvI1KwqYzyVW4dF/view?usp=sharing
+
+Kolejne nagrania przedstawiają przetwarzanie pdf'a zawierającego kilka wykresów:
+- Pdf złożony z trzech wykresów: https://drive.google.com/file/d/1IFsUjofndI_tfQBg6qesfXk7UXC0zWAJ/view?usp=sharing
+
+- Pdf złożony z sześciu wykresów: https://drive.google.com/file/d/1Wgm0eaWNilz6Wp23UWLbwsU7O6sBFW2B/view?usp=sharing
 
 ## Informacje o zbiorach plików
 
@@ -133,9 +144,19 @@ Testy podzielono na dwie grupy ze względu na ich zaawansowanie: wykresy proste 
 <img width="1639" height="819" alt="image" src="https://github.com/user-attachments/assets/a5bc1009-c310-4e9b-aacb-405e625e79f0" />
 https://drive.google.com/file/d/121Z1c-pCiEkWv66TfLavsvV1ZJBx2Uki/view?usp=sharing
 
-####  Działanie testów z grupy drugiej
+####  Działanie testów z grupy drugiej (wykresy bardziej złożone)
 - Poniżej przedstawiono typy wykresów, które zostaną użyte w testach poprawności rezultatów naszej aplikacji:
 <img width="374" height="487" alt="image" src="https://github.com/user-attachments/assets/2ddd2c52-1cd4-4ba2-ab5d-77479aafd6cc" />
+
+- Nagranie przedstawiające przebieg testów zautomatyzowanych:
+
+https://drive.google.com/file/d/1aqZ-FCZqBr4ezDGEhYs-kBegjoBp3y_Z/view?usp=sharing
+
+- Wyniki testów:
+<img width="910" height="874" alt="image" src="https://github.com/user-attachments/assets/e0863a9b-3b33-4bd6-91cb-3162a7bbfa9f" />
+
+Testy pdf'ów złożonych z kilku wykresów w jednym pliku zostały przetestowane manualnie (Patrz: [Jump to Uruchomienie aplikacji](#uruchomienie-id))
+
 
 ### 📦 Podsumowanie
 
@@ -145,5 +166,6 @@ https://drive.google.com/file/d/121Z1c-pCiEkWv66TfLavsvV1ZJBx2Uki/view?usp=shari
 
 
 🚀 Ambitnie: 40 wykresów (do późniejszej walidacji modelu asynchronicznego)
+
 
 
