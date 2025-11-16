@@ -1,5 +1,5 @@
 {
-    "chart_type": "dual line charts",
+    "chart_type": "line chart",
     "title": "Antropic",
     "data_points": {
         "automation_vs_augmentation": [
