@@ -82,12 +82,13 @@ class ChartsAssistant:
                             OCR extracted this text (but positions may be jumbled):
                             {ocr_summary}
 
-                            For each chart please:
-                            1. Identify the chart type (pie chart, bar chart, etc.)
-                            2. Connect each company/label to its correct percentage by looking at the visual layout
-                            3. Describe the market share distribution
-                            4. Identify trends (who has the largest/smallest share)
-                            5. Provide insights about the data
+                            For each file please:
+                            1. Identify if there is any chart included and if so, write its title.
+                            2. Identify the chart type (pie chart, bar chart, etc.)
+                            3. Connect each company/label to its correct percentage by looking at the visual layout
+                            4. If it's possible, describe the market share distribution
+                            5. Identify trends 
+                            6. Provide insights about the data
                             
                             And finally, create a concise summary to explain visualize report like: "The chart shows a 15% increase of sales in Q2". 
                             If it's possible provide correlation and dependencies between charts.

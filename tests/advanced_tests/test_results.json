@@ -1,0 +1,121 @@
+[
+  {
+    "image_path": "advanced_charts\\bar\\AIInvestments.png",
+    "expected_type": "bar chart",
+    "detected_type": "bar chart",
+    "type_match": true,
+    "error": null,
+    "data_point_mentions": [
+      "2013",
+      "2014",
+      "2015",
+      "2016",
+      "2017",
+      "2018",
+      "2019",
+      "2020",
+      "2021",
+      "2022"
+    ],
+    "response_preview": "### Chart Analysis: Global Corporate AI Investment (Figure 1)\n\n#### 1. **Chart Type**:\nThis is a **bar chart** showing the annual investment figures in global corporate AI (Artificial Intelligence) de..."
+  },
+  {
+    "image_path": "advanced_charts\\diagrams\\Legacy-ERP.png",
+    "expected_type": "diagram",
+    "detected_type": "diagram",
+    "type_match": true,
+    "error": null,
+    "data_point_mentions": [
+      "Legacy ERP Systems",
+      "Cloud ERP Platforms",
+      "AI-Embedded Finance Architecture"
+    ],
+    "response_preview": "### Analysis of the Diagram: Transition from Legacy ERP to AI-Driven Finance Architecture with DFRA\u2122 & FAST\u2122  \n\n**1. Chart Type:**  \nThis is a vertical flow chart showcasing the evolution of ERP syste..."
+  },
+  {
+    "image_path": "advanced_charts\\linear\\Antropic.png",
+    "expected_type": "line chart",
+    "detected_type": "line chart",
+    "type_match": true,
+    "error": null,
+    "data_point_mentions": [],
+    "response_preview": "### Structured Analysis of the Charts:\nThe visuals depict two line charts:\n1. **Chart 1**: Automation vs. Augmentation Trends\n2. **Chart 2**: Individual Interaction Types Evolution\n\n---\n\n### Chart 1: ..."
+  },
+  {
+    "image_path": "advanced_charts\\linear\\ClaudeaiUsage.png",
+    "expected_type": "line chart",
+    "detected_type": "line chart",
+    "type_match": true,
+    "error": null,
+    "data_point_mentions": [
+      "Computer and Mathematical",
+      "Arts, Design, Entertainment, Sports, and Media",
+      "Educational Instruction and Library",
+      "Office and Administrative Support",
+      "Life, Physical, and Social Science",
+      "Business and Financial Operations",
+      "Architecture and Engineering",
+      "Management"
+    ],
+    "response_preview": "### Detailed Analysis of Usage Share Trends Across Economic Index Reports (V1\u2013V3)\n\n**Chart Type:**  \nEach plot is a **line chart** representing the percentage usage share trends of various industries ..."
+  },
+  {
+    "image_path": "advanced_charts\\linear\\linear_join3_plots.pdf",
+    "expected_type": "combined multi-plot document",
+    "detected_type": "unknown",
+    "type_match": false,
+    "error": "Error code: 400 - {'error': {'code': 'BadRequest', 'message': 'Invalid image data.', 'param': None, 'type': None}}",
+    "data_point_mentions": [],
+    "response_preview": null
+  },
+  {
+    "image_path": "advanced_charts\\pdfcombined_6plots.pdf",
+    "expected_type": "combined multi-plot document",
+    "detected_type": "unknown",
+    "type_match": false,
+    "error": "Error code: 400 - {'error': {'code': 'BadRequest', 'message': 'Invalid image data.', 'param': None, 'type': None}}",
+    "data_point_mentions": [],
+    "response_preview": null
+  },
+  {
+    "image_path": "advanced_charts\\pie\\bankingFinance.jpg",
+    "expected_type": "pie chart",
+    "detected_type": "pie chart",
+    "type_match": true,
+    "error": null,
+    "data_point_mentions": [
+      "IT and telecommunications",
+      "Banking, financial services, and insurance",
+      "Automotive and transport",
+      "Healthcare",
+      "Retail",
+      "Manufacturing",
+      "Advertising and media",
+      "Others"
+    ],
+    "response_preview": "### **Structured Analysis:**\n\n#### **1. Chart Type:**  \nThe chart is a **pie chart** illustrating the global machine learning market share by end-use industry as of 2022.\n\n---\n\n#### **2. Data Associat..."
+  },
+  {
+    "image_path": "advanced_charts\\scatter\\AI_HeatMap.png",
+    "expected_type": "heat map",
+    "detected_type": "heatmap",
+    "type_match": true,
+    "error": null,
+    "data_point_mentions": [],
+    "response_preview": "### Structured Analysis of the Chart  \nThe chart is divided into several sections that describe AI deployment and capabilities across various business domains. It represents maturity levels where AI t..."
+  },
+  {
+    "image_path": "advanced_charts\\scatter\\global-corporate.png",
+    "expected_type": "scatter plot",
+    "detected_type": "unknown",
+    "type_match": true,
+    "error": null,
+    "data_point_mentions": [
+      "Gross Domestic Product",
+      "ICT Goods Export",
+      "AI Patent Applications",
+      "Regulatory Quality"
+    ],
+    "response_preview": "To analyze the provided four charts, we need to extract relevant details about trends in the data and correlations between variables visualized in scatterplots with fitted lines. Below is the detailed..."
+  }
+]

@@ -1,0 +1,85 @@
+{
+    "chart_type": "heat map",
+    "title": "AI HeatMap",
+    "data_points": [
+        {
+            "label": "Use cases deployed",
+            "values": [
+                {
+                    "label": "Across process areas",
+                    "value": "Mixed maturity: mostly levels 1–3 with pockets of 4"
+                }
+            ]
+        },
+        {
+            "label": "Value created",
+            "values": [
+                {
+                    "label": "Across process areas",
+                    "value": "Moderate maturity: predominantly levels 1–2, fewer 3–4"
+                }
+            ]
+        },
+        {
+            "label": "Strategy & vision",
+            "values": [
+                {
+                    "label": "Across process areas",
+                    "value": "Mid-level maturity: mix of levels 2–3 with occasional 1s"
+                }
+            ]
+        },
+        {
+            "label": "Organization & governance",
+            "values": [
+                {
+                    "label": "Across process areas",
+                    "value": "Mixed but leaning low-to-mid: mostly levels 1–2"
+                }
+            ]
+        },
+        {
+            "label": "People & culture",
+            "values": [
+                {
+                    "label": "Across process areas",
+                    "value": "Lower maturity: concentration of 0–2 levels"
+                }
+            ]
+        },
+        {
+            "label": "Analytics tools / platforms",
+            "values": [
+                {
+                    "label": "Across process areas",
+                    "value": "Highly variable: mix of levels 1–4 depending on domain"
+                }
+            ]
+        },
+        {
+            "label": "Data management processes",
+            "values": [
+                {
+                    "label": "Across process areas",
+                    "value": "Generally low maturity: heavy presence of 0–2 levels"
+                }
+            ]
+        },
+        {
+            "label": "Data assets",
+            "values": [
+                {
+                    "label": "Across process areas",
+                    "value": "Low maturity: predominantly 0–1 levels with few higher"
+                }
+            ]
+        }
+    ],
+    "trends": [
+        "AI-specific capabilities such as analytics platforms show significant variance in maturity across business domains.",
+        "Foundational data capabilities remain the weakest area, with many processes scoring in the 0–1 maturity range.",
+        "Deployment-related dimensions (use cases and value created) display moderate maturity but are unevenly distributed.",
+        "Strategic and governance capabilities show mid-level maturity, suggesting partial institutionalization of AI efforts.",
+        "Certain highlighted domains—procurement, marketing, content creation, and HR—demonstrate pockets of high maturity, tied to concrete AI-enabled use cases such as RPA efficiency, next-product recommendations, content scaling, and HR skills mapping."
+    ]
+}

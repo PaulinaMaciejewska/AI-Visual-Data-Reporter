@@ -1,0 +1,51 @@
+{
+    "chart_type": "bar chart",
+    "title": "AI Investments",
+    "data_points": [
+        {
+            "label": "2013",
+            "value": 16.95
+        },
+        {
+            "label": "2014",
+            "value": 21.79
+        },
+        {
+            "label": "2015",
+            "value": 29.07
+        },
+        {
+            "label": "2016",
+            "value": 38.18
+        },
+        {
+            "label": "2017",
+            "value": 59.39
+        },
+        {
+            "label": "2018",
+            "value": 85.92
+        },
+        {
+            "label": "2019",
+            "value": 101.29
+        },
+        {
+            "label": "2020",
+            "value": 153.63
+        },
+        {
+            "label": "2021",
+            "value": 276.14
+        },
+        {
+            "label": "2022",
+            "value": 175.54
+        }
+    ],
+    "trends": [
+        "Corporate AI investment shows a strong upward trend from 2013 to 2021",
+        "Investment peaks sharply in 2021",
+        "2022 shows a decline from 2021 but remains much higher than pre-2020 levels"
+    ]
+}

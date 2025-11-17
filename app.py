@@ -63,6 +63,9 @@ with st.sidebar:
                     st.info("PDF preview not supported directly — it will be analyzed after clicking 'Analyze Charts'.")
                     pdf_warning_shown = True
 
+                pdf_bytes = uploaded_file.read()
+                first_page = fitz.open(stream=pdf_bytes, filetype="pdf")[0]
+                st.image(first_page.get_pixmap().tobytes("png"), caption=f"Uploaded: {uploaded_file.name}", use_container_width=True)
                 st.write(f"📄 Uploaded: {uploaded_file.name}")
                 st.download_button(
                     label="Download PDF",
