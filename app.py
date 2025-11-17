@@ -27,7 +27,28 @@ with st.sidebar:
         accept_multiple_files=True
     )
 
+    # Button to clear the chat
+    if len(st.session_state.messages) > 0:
+        if st.button("🗑️ Clear Chat"):
+            st.session_state.show_confirm_clear = True
+
+    # Confirmation of deletion of chat history
+    if st.session_state.get("show_confirm_clear", False):
+        st.info("Are you sure you want to clear the chat? This cannot be undone.")
+        col1, col2 = st.columns(2, gap="medium")
+        with col1:
+            if st.button("Yes", use_container_width=True):
+                st.session_state.messages = []
+                st.session_state.last_analysis = None
+                st.session_state.show_confirm_clear = False
+                st.rerun()
+        with col2:
+            if st.button("Cancel", use_container_width=True):
+                st.session_state.show_confirm_clear = False
+                st.rerun()
+                
     if uploaded_files:
+        pdf_warning_shown = False
         for uploaded_file in uploaded_files:
             file_name = uploaded_file.name.lower()
 
@@ -37,6 +58,11 @@ with st.sidebar:
 
             # PDF preview
             elif file_name.endswith(".pdf"):
+                # PDF preview message once for pdf list
+                if not pdf_warning_shown:
+                    st.info("PDF preview not supported directly — it will be analyzed after clicking 'Analyze Charts'.")
+                    pdf_warning_shown = True
+
                 pdf_bytes = uploaded_file.read()
                 first_page = fitz.open(stream=pdf_bytes, filetype="pdf")[0]
                 st.image(first_page.get_pixmap().tobytes("png"), caption=f"Uploaded: {uploaded_file.name}", use_container_width=True)
@@ -47,7 +73,6 @@ with st.sidebar:
                     file_name=uploaded_file.name,
                     mime="application/pdf"
                 )
-                st.info("PDF preview not supported directly — it will be analyzed after clicking 'Analyze Charts'.")
 
 
         if st.button("🔍 Analyze Charts", type="primary"):
