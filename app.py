@@ -48,6 +48,7 @@ with st.sidebar:
                 st.rerun()
                 
     if uploaded_files:
+        pdf_warning_shown = False
         for uploaded_file in uploaded_files:
             file_name = uploaded_file.name.lower()
 
@@ -57,6 +58,11 @@ with st.sidebar:
 
             # PDF preview
             elif file_name.endswith(".pdf"):
+                # PDF preview message once for pdf list
+                if not pdf_warning_shown:
+                    st.info("PDF preview not supported directly — it will be analyzed after clicking 'Analyze Charts'.")
+                    pdf_warning_shown = True
+
                 st.write(f"📄 Uploaded: {uploaded_file.name}")
                 st.download_button(
                     label="Download PDF",
@@ -64,7 +70,6 @@ with st.sidebar:
                     file_name=uploaded_file.name,
                     mime="application/pdf"
                 )
-                st.info("PDF preview not supported directly — it will be analyzed after clicking 'Analyze Charts'.")
 
 
         if st.button("🔍 Analyze Charts", type="primary"):
