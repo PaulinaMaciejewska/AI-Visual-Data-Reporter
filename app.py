@@ -17,12 +17,15 @@ if "messages" not in st.session_state:
         "content": "Hello! I'm your Chart Analysis Assistant. Upload a chart image and I'll analyze it for you."
     })
 
+ALLOWED_IMAGE_FORMATS = ["png", "jpg", "jpeg"]
+ALLOWED_PDF_FORMAT = ["pdf"]
+ALLOWED_FORMATS = ALLOWED_IMAGE_FORMATS + ALLOWED_PDF_FORMAT
 # File uploader in sidebar
 with st.sidebar:
     st.header("📤 Upload Chart")
     uploaded_files = st.file_uploader(
         "Choose image files",
-        type=["png", "jpg", "jpeg", "pdf"],
+        type=ALLOWED_FORMATS,
         help="Upload chart or graph images (PNG, JPG, JPEG) or PDF reports to analyze",
         accept_multiple_files=True
     )
@@ -53,11 +56,11 @@ with st.sidebar:
             file_name = uploaded_file.name.lower()
 
             # Image preview
-            if file_name.endswith((".png", ".jpg", ".jpeg")):
+            if file_name.endswith(tuple(ALLOWED_IMAGE_FORMATS)):
                 st.image(uploaded_file, caption=f"Uploaded: {uploaded_file.name}", use_container_width=True)
 
             # PDF preview
-            elif file_name.endswith(".pdf"):
+            elif file_name.endswith(tuple(ALLOWED_PDF_FORMAT)):
                 # PDF preview message once for pdf list
                 if not pdf_warning_shown:
                     st.info("PDF preview not supported directly — it will be analyzed after clicking 'Analyze Charts'.")
@@ -91,9 +94,7 @@ with st.sidebar:
                 converted_files = []
 
                 for filename, file_bytes in files:
-                    ext = filename.lower().split(".")[-1]
-
-                    if ext == "pdf":
+                    if filename.lower().endswith(tuple(ALLOWED_PDF_FORMAT)):
                         doc = fitz.open(stream=file_bytes, filetype="pdf")
                         for page_num, page in enumerate(doc):
                             pix = page.get_pixmap()
@@ -124,7 +125,7 @@ with st.sidebar:
                     except Exception as e:
                         st.session_state.messages.append({
                             "role": "assistant",
-                            "content": f"❌ Error analyzing chart: {str(e)}"
+                            "content": f"❌ Error analyzing chart"
                         })
                         
             asyncio.run(analyze_all_charts())
