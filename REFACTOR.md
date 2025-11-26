@@ -9,6 +9,7 @@
 ## 1. ARCHITEKTURA I STRUKTURA PROJEKTU
 
 ### Mocne strony:
+
 - **Czysty use case**: OCR + GPT-4 Vision do analizy wykresów
 - **Najprostsza struktura** ze wszystkich 3 projektów
 - **Testy są obecne!** Folder `tests/` z test cases
@@ -17,6 +18,7 @@
 ### Problemy:
 
 **P1: Flat structure - wszystko w root**
+
 ```
 Obecna struktura:
 .
@@ -46,6 +48,7 @@ tests/
 ```
 
 **P2: Brak separacji concerns**
+
 - `app.py` ma 155 linii, ale zawiera:
   - UI rendering (Streamlit)
   - PDF processing (PyMuPDF)
@@ -53,12 +56,14 @@ tests/
   - Session state management
 
 **P3: Mieszanie async z sync kodem**
+
 ```python
 # app.py, linia 80-130
 async def analyze_all_charts():  # async
     # ...
 asyncio.run(analyze_all_charts())  # Wywołanie w sync context
 ```
+
 To działa, ale jest niebezpieczne w produkcji (event loop conflicts).
 
 ---
@@ -68,6 +73,7 @@ To działa, ale jest niebezpieczne w produkcji (event loop conflicts).
 ### Kod: `config.py`
 
 ### Mocne strony:
+
 - Walidacja zmiennych środowiskowych
 - Factory methods dla klientów
 - Piękna struktura
@@ -111,7 +117,7 @@ def get_openai_client():
 class Config:
     _openai_client = None
     _vision_client = None
-    
+
     @staticmethod
     def get_openai_client():
         if Config._openai_client is None:
@@ -158,16 +164,20 @@ from unittest import result  # WTF? Nieużywany import
 **Problem**: To sugeruje copy-paste z testów. Dead code. -->
 
 **P9: Magic number - limit 5 plików**
+
 ```python
 # linia 35
 if counter < 5:  # Dlaczego 5? Co się dzieje z resztą?
 ```
-**Problem**: 
+
+**Problem**:
+
 - Jeśli użytkownik wgra 10 plików, tylko pierwsze 5 zostaną przetworzone
 - Brak komunikatu o tym
 - Brak dokumentacji dlaczego
 
 **Fix**:
+
 ```python
 MAX_FILES_TO_PROCESS = 5  # Azure Vision API rate limit
 
@@ -183,7 +193,7 @@ for filename, image_bytes in image_bytes_dict.items():
     if counter < 5:
         # ... OCR processing (sync)
 ```
-**Problem**: 
+**Problem**:
 - 5 plików × 2-3 sekundy każdy = 10-15 sekund czekania
 - OCR requests mogą być równoległe
 
@@ -218,7 +228,7 @@ async def _poll_for_result_async(self, operation_id, max_attempts=30, poll_inter
         await asyncio.sleep(poll_interval)  # Async sleep
 ``` -->
 
-**P12: Brak error handling dla OCR**
+<!-- **P12: Brak error handling dla OCR**
 ```python
 # linia 38-41
 read_result = self.vision_client.read_in_stream(
@@ -251,7 +261,7 @@ def _read_image_with_retry(self, image_stream):
             raise ValueError(f"Invalid image format: {e}")
         else:
             raise
-```
+``` -->
 
 <!-- **P13: Gigantyczny prompt - 400+ tokenów**
 ```python
@@ -266,10 +276,10 @@ For each file please:
 2. Identify the chart type (pie chart, bar chart, etc.)
 3. Connect each company/label to its correct percentage by looking at the visual layout
 4. If it's possible, describe the market share distribution
-5. Identify trends 
+5. Identify trends
 6. Provide insights about the data
 
-And finally, create a concise summary to explain visualize report like: "The chart shows a 15% increase of sales in Q2". 
+And finally, create a concise summary to explain visualize report like: "The chart shows a 15% increase of sales in Q2".
 If it's possible provide correlation and dependencies between charts.
 
 Create a clear table showing: Company Name | Market Share %"""
@@ -281,7 +291,7 @@ Create a clear table showing: Company Name | Market Share %"""
 
 **Fix**: Użyj system prompt + krótki user prompt:
 ```python
-system_prompt = """You are a chart analysis expert. 
+system_prompt = """You are a chart analysis expert.
 Analyze charts and provide:
 1. Chart type
 2. Key data points
@@ -324,7 +334,7 @@ def followup_response(self, question, previous_analysis):
         messages=[
             {
                 "role": "system",
-                "content": """You are an expert at analyzing charts and graphs. 
+                "content": """You are an expert at analyzing charts and graphs.
                 You can see the visual layout and understand which data points connect to which labels.
                 Provide structured analysis with correct data associations."""
             },
@@ -352,15 +362,18 @@ def followup_response(self, question, previous_analysis):
 ### Problemy:
 
 **P17: PDF processing w UI layer**
+
 ```python
 # app.py, linia 66-75
 pdf_bytes = uploaded_file.read()
 first_page = fitz.open(stream=pdf_bytes, filetype="pdf")[0]
 st.image(first_page.get_pixmap().tobytes("png"), ...)
 ```
+
 **Problem**: Business logic w presentation layer.
 
 **Fix**: Przenieś do `utils/pdf_processor.py`:
+
 ```python
 class PDFProcessor:
     @staticmethod
@@ -371,21 +384,25 @@ class PDFProcessor:
 ```
 
 **P18: Nested async function w sync context**
+
 ```python
 # linia 80-130
 if st.button("🔍 Analyze Charts", type="primary"):
-    
+
     async def analyze_all_charts():  # Nested async
         # ...
-    
+
     asyncio.run(analyze_all_charts())  # W Streamlit może crashować
 ```
-**Problem**: 
+
+**Problem**:
+
 - Streamlit jest sync framework
 - `asyncio.run()` tworzy nowy event loop
 - Może powodować konflikty
 
 **Lepsze rozwiązanie**:
+
 ```python
 def analyze_all_charts_sync():
     files = prepare_files(uploaded_files)
@@ -401,6 +418,7 @@ def analyze_all_charts_sync():
 ```
 
 **P19: Brak walidacji uploaded files**
+
 ```python
 # linia 23-28
 uploaded_files = st.file_uploader(
@@ -409,12 +427,15 @@ uploaded_files = st.file_uploader(
     # ... ❌ Brak walidacji rozmiaru
 )
 ```
+
 Użytkownik może wgrać:
+
 - 100 plików naraz
 - PDF o rozmiarze 100 MB
 - Złośliwy plik
 
 **Fix**:
+
 ```python
 MAX_FILES = 10
 MAX_FILE_SIZE = 20 * 1024 * 1024  # 20MB
@@ -423,7 +444,7 @@ if uploaded_files:
     if len(uploaded_files) > MAX_FILES:
         st.error(f"Too many files. Maximum {MAX_FILES} allowed.")
         return
-    
+
     for file in uploaded_files:
         if file.size > MAX_FILE_SIZE:
             st.error(f"File {file.name} too large (max 20MB)")
@@ -431,6 +452,7 @@ if uploaded_files:
 ```
 
 **P20: St.rerun() bez warunków**
+
 ```python
 # linia 131
 asyncio.run(analyze_all_charts())
@@ -439,17 +461,21 @@ st.rerun()  # Zawsze rerun
 # linia 155
 st.rerun()  # Zawsze rerun
 ```
+
 **Problem**: Niepotrzebne reruns mogą powodować performance issues.
 
 **P21: Session state bez cleanup**
+
 ```python
 # linia 9-18
 if "assistant" not in st.session_state:
     st.session_state.assistant = ChartsAssistant()
 ```
+
 `ChartsAssistant` trzyma Azure clients w pamięci przez całą sesję. Jeśli użytkownik nie korzysta przez godzinę, to marnowanie zasobów.
 
 **P22: Brak error boundaries**
+
 ```python
 # linia 124-128
 except Exception as e:
@@ -458,12 +484,15 @@ except Exception as e:
         "content": f"Error analyzing chart: {str(e)}"
     })
 ```
+
 **Problem**: Pokazujesz raw exception user. To może ujawnić:
+
 - API keys (jeśli są w traceback)
 - Internal paths
 - Azure endpoint URLs
 
 **Fix**:
+
 ```python
 except HttpResponseError as e:
     st.error("Failed to analyze chart. Please try again.")
@@ -478,6 +507,7 @@ except Exception as e:
 ## 5. TESTY
 
 ### Mocne strony:
+
 - Folder `tests/` z przypadkami testowymi
 - Podział na simple/advanced tests
 - Test data w JSON
@@ -486,40 +516,48 @@ except Exception as e:
 ### Problemy:
 
 **P23: Testy nie są pytest**
+
 ```python
 # tests/simple_tests/run_test_and_validation.py
 class TestResultOfAnalysis:
     def _test_chart_analysis(self):  # Nie jest pytest test
         # ...
 ```
-**Problem**: 
+
+**Problem**:
+
 - Naming convention `_test_*` (z underscore) oznacza private method
 - pytest nie wykryje tych testów
 - Trzeba uruchamiać ręcznie
 
 **Fix**:
+
 ```python
 import pytest
 
 class TestChartAnalysis:
     def test_bar_chart_analysis(self):  # pytest wykryje
         # ...
-    
+
     def test_pie_chart_analysis(self):
         # ...
 ```
 
 **P24: Testy są integrationowe, nie unit**
+
 ```python
 # tests/simple_tests/run_test_and_validation.py, linia 29
 self.assistant = ChartsAssistant()  # Wywołuje PRAWDZIWE Azure API
 ```
+
 **Problem**:
+
 - Każdy test = $0.01-0.05 kosztu API
 - Wolne (2-3 sekundy/test)
 - Zależne od Azure uptime
 
 **Fix**: Mock Azure clients:
+
 ```python
 from unittest.mock import Mock, patch
 
@@ -528,10 +566,10 @@ from unittest.mock import Mock, patch
 def test_chart_analysis(mock_openai, mock_vision):
     mock_vision.return_value.read_in_stream.return_value = Mock(...)
     mock_openai.return_value.chat.completions.create.return_value = Mock(...)
-    
+
     assistant = ChartsAssistant()
     result = asyncio.run(assistant.analyze_chart([("test.png", b"...")]))
-    
+
     assert "chart" in result.lower()
 ```
 
@@ -539,32 +577,38 @@ def test_chart_analysis(mock_openai, mock_vision):
 Nie wiadomo ile kodu jest pokryte testami.
 
 **Add**:
+
 ```bash
 pip install pytest-cov
 pytest --cov=. --cov-report=html
 ```
 
 **P26: Test data commitowane do repo**
+
 ```
 tests/
 ├── advanced_charts/  # 5.7 MB!
 └── simple_tests/
     └── simple_charts/  # 267 KB
 ```
+
 **Problem**: 6MB obrazów w git repo = duże repo, wolne clone.
 
-**Fix**: 
+**Fix**:
+
 - Dodaj do `.gitignore`
 - Używaj git-lfs dla binary files
 - Lub pobieraj test data z Azure Blob Storage
 
 **P27: Niepełne asserty**
+
 ```python
 # tests/simple_tests/run_test_and_validation.py, linia 36-38
 assert "chart type" in analysis_result.lower()
 assert "market share" in analysis_result.lower()
 assert any(str(i) + "%" for i in range(101) if str(i) in analysis_result)
 ```
+
 To sprawdza czy JAKIKOLWIEK procent jest w odpowiedzi, nie czy PRAWIDŁOWY.
 
 ---
@@ -578,7 +622,7 @@ To sprawdza czy JAKIKOLWIEK procent jest w odpowiedzi, nie czy PRAWIDŁOWY.
 azure-ai-agents  # Nieużywany w projekcie
 azure-ai-documentintelligence  # Nieużywany
 ``` -->
-<!-- 
+<!--
 **P30: Brak dev dependencies**
 Projekt ma testy, ale brak:
 ```txt
@@ -597,17 +641,21 @@ ruff==0.8.0
 ### Problemy:
 
 **P31: Brak walidacji image content**
+
 ```python
 # chart_assistant.py, linia 36-40
 image_stream = io.BytesIO(image_bytes)
 read_result = self.vision_client.read_in_stream(image_stream, raw=True)
 ```
+
 Użytkownik może przesłać:
+
 - Nie-obraz (np. malformed file)
 - Obraz z wulgarną treścią
 - Złośliwy plik
 
 **Fix**:
+
 ```python
 from PIL import Image
 
@@ -615,11 +663,11 @@ def validate_image(image_bytes: bytes):
     try:
         img = Image.open(io.BytesIO(image_bytes))
         img.verify()
-        
+
         # Check size
         if img.size[0] * img.size[1] > 10000 * 10000:  # 100 megapixels
             raise ValueError("Image too large")
-        
+
         return True
     except Exception as e:
         raise ValueError(f"Invalid image: {e}")
@@ -636,6 +684,7 @@ Jeśli exception zawiera API key w URL (np. w HttpResponseError), zostanie pokaz
 User może kliknąć "Analyze Charts" 100 razy w minutę.
 
 **Fix**:
+
 ```python
 import time
 
@@ -684,6 +733,7 @@ Z async: 5 plików × 3 sekundy = ~3 sekundy (parallel). -->
 Jeśli 10 userów analizuje ten sam wykres, robisz 10 identycznych API calls.
 
 **Fix**:
+
 ```python
 import hashlib
 from functools import lru_cache
@@ -691,20 +741,23 @@ from functools import lru_cache
 @lru_cache(maxsize=100)
 def analyze_chart_cached(image_hash: str, image_bytes: bytes):
     # ...
-    
+
 def get_image_hash(image_bytes: bytes) -> str:
     return hashlib.md5(image_bytes).hexdigest()
 ```
 
 **P37: PDF conversion w pamięci**
+
 ```python
 # app.py, linia 99-100
 pix = page.get_pixmap()
 img_bytes = pix.tobytes("jpg")
 ```
+
 100-stronicowy PDF = 100 × 5MB = 500MB w RAM.
 
 **Fix**: Process w chunkach:
+
 ```python
 MAX_PAGES = 20
 
@@ -720,6 +773,7 @@ for page_num, page in enumerate(doc):
 ## 9. DOKUMENTACJA
 
 ### ✅ Mocne strony:
+
 - README petarda
 - Struktura projektu opisana
 - Instrukcje uruchomienia
@@ -740,17 +794,21 @@ OPENAI_API_VERSION=2024-02-15-preview
 ``` -->
 
 **P39: Brak API documentation**
+
 ```python
 async def analyze_chart(self, files):
     """Computer Vision OCR + GPT-4 Vision to analyze chart images and extract structured data."""
 ```
+
 Docstring jest OK, ale brak:
+
 - Parametrów
 - Return type
 - Przykładów użycia
 
 **P40: Brak architecture diagram**
 README pokazuje strukturę folderów, ale brak diagramu przepływu:
+
 ```
 User uploads image/PDF
     ↓
@@ -778,22 +836,25 @@ ChartsAssistant.analyze_chart()
 ### Problemy:
 
 **P41: Brak type hints**
+
 ```python
 # chart_assistant.py, linia 15
 async def analyze_chart(self, files):  # Brak type hints
 ```
 
 **Powinno być**:
+
 ```python
 from typing import List, Tuple
 
 async def analyze_chart(
-    self, 
+    self,
     files: List[Tuple[str, bytes]]
 ) -> str:
 ```
 
 **P42: Inconsistent naming**
+
 ```python
 # app.py
 uploaded_files  # snake_case
@@ -802,6 +863,7 @@ image_bytes_dict  # snake_cas
 base64_images_dict  # snake_cas
 all_text_results  # snake_case
 ```
+
 Actually, naming jest spójny! To jest PLUS.
 
 <!-- **P43: Magic strings**
@@ -821,11 +883,14 @@ ALLOWED_FORMATS = ALLOWED_IMAGE_FORMATS + ALLOWED_PDF_FORMAT
 ``` -->
 
 **P44: Długie funkcje**
+
 ```python
 # app.py, linia 80-131 - 51 linii
 async def analyze_all_charts():
 ```
+
 **Fix**: Podziel na mniejsze funkcje:
+
 ```python
 def prepare_files(uploaded_files):
     # ...
@@ -842,14 +907,16 @@ async def analyze_and_update_messages(files):
 ## PODSUMOWANIE
 
 ### Krytyczne problemy (MUST FIX):
+
 1. **P9**: Magic number - limit 5 plików bez ostrzeżenia
 <!-- 2. **P11**: Blocking `time.sleep()` w async context -->
-3. **P19**: Brak walidacji uploaded files (security)
-4. **P24**: Testy używają prawdziwego Azure API (koszty)
-<!-- 5. **P28**: Brak pinned dependencies -->
-<!-- 6. **P32**: API keys mogą wyciekać w error messages -->
+2. **P19**: Brak walidacji uploaded files (security)
+3. **P24**: Testy używają prawdziwego Azure API (koszty)
+   <!-- 5. **P28**: Brak pinned dependencies -->
+   <!-- 6. **P32**: API keys mogą wyciekać w error messages -->
 
 ### Wysokie priorytety (powinny być fixowane):
+
 7. **P10**: Synchroniczne przetwarzanie plików (performance)
 8. **P13**: Gigantyczny prompt (koszty $90/miesiąc możliwe do zaoszczędzenia)
 9. **P18**: Nested async w sync context (może crashować)
@@ -858,6 +925,7 @@ async def analyze_and_update_messages(files):
 12. **P41**: Brak type hints
 
 ### Nice-to-have (długoterminowe):
+
 13. **P1**: Lepsza struktura pakietu
 14. **P5**: Singleton pattern dla Azure clients
 15. **P36**: Cache dla powtarzających się obrazów
