@@ -5,7 +5,7 @@ Varification:
 - Structured data output matches expected format and content
 '''
 import sys
-import os
+import pytest
 import asyncio
 from pathlib import Path
 
@@ -16,52 +16,36 @@ from test_cases import test_cases
 from chart_assistant import ChartsAssistant
 from tests.simple_tests.utilities import validate_chart_type, validate_data_points
 
-class TestResultOfAnalysis:
-    def __init__(self, image_path, assistant: ChartsAssistant):
-        self.image_path = image_path
-        self.assistant = assistant
-        self.image_data = None
+@pytest.fixture(params=test_cases)
+def chart_case(request):
+    case = request.param
+    image_path = case["image_path"]
+    filename = Path(image_path).name
 
-    def _read_image(self):
-        with open(self.image_path, "rb") as img_file:
-            self.image_data = img_file.read()
+    with open(image_path, "rb") as img_file:
+        image_data = img_file.read()
 
-    def _test_chart_analysis(self):
-        if self.image_data is None:
-            self._read_image()
+    return filename, image_data, case["expected"]
+
+@pytest.fixture
+def assistant():
+    return ChartsAssistant()
+
+
+class TestChartAnalysis:
+
+    @pytest.mark.asyncio
+    async def test_chart_analysis(self, assistant, chart_case):
+        filename, image_data, expected = chart_case
+        analysis_result = await assistant.analyze_chart([(filename, image_data)])
         
-        # analyze_chart is async and expects list of (filename, data) tuples
-        filename = Path(self.image_path).name
-        analysis_result = asyncio.run(self.assistant.analyze_chart([(filename, self.image_data)]))
-        
-        assert "chart type" in analysis_result.lower()
-        assert "market share" in analysis_result.lower()
+        assert expected["chart_type"].lower() in analysis_result.lower()
         assert any(str(i) + "%" for i in range(101) if str(i) in analysis_result)
 
-    def _test_full_workflow(self, spec_test_case):
-        if self.image_data is None:
-            self._read_image()
-        
-        # analyze_chart is async and expects list of (filename, data) tuples
-        filename = Path(self.image_path).name
-        analysis_result = asyncio.run(self.assistant.analyze_chart([(filename, self.image_data)]))
-        validate_chart_type(analysis_result, spec_test_case["expected"]["chart_type"])
-        validate_data_points(analysis_result, spec_test_case["expected"]["data_points"])
+    @pytest.mark.asyncio
+    async def test_full_workflow(self, assistant, chart_case):
+        filename, image_data, expected = chart_case
+        analysis_result = await assistant.analyze_chart([(filename, image_data)])  
 
-
-if __name__ == "__main__":
-    assistant = ChartsAssistant()
-    print("Starting tests for chart analysis and validation...")
-    for case in test_cases:
-        tester = TestResultOfAnalysis(case["image_path"], assistant)
-        try:
-            print(80 * "=")
-            print(f"Running tests for {case['image_path']}...")
-            tester._test_chart_analysis()
-            print(f"✅ Test chart analysis passed for {case['image_path']}")
-
-            tester._test_full_workflow(case)
-            print(f"✅ Full workflow test passed for {case['image_path']}")
-        except AssertionError as e:
-            print(f"❌ Test failed for {case['image_path']}: {str(e)}")
-        
+        validate_chart_type(analysis_result, expected["chart_type"])
+        validate_data_points(analysis_result, expected["data_points"])
