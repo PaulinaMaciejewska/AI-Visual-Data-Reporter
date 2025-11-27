@@ -23,9 +23,11 @@ with st.sidebar:
 
         if st.button("🔍 Analyze Charts", type="primary"):
             
-            async def analyze_all_charts() -> None:
+            def analyze_all_charts() -> None:
 
                 converted_files = read_uploaded_files(uploaded_files)
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
 
                 st.session_state.messages.append({
                     "role": "user",
@@ -36,21 +38,27 @@ with st.sidebar:
                 # Show analyzing message
                 with st.spinner(f"Analyzing {len(uploaded_files)} chart..."):
                     try:
-                        result = await st.session_state.assistant.analyze_chart(converted_files)
+                        result = loop.run_until_complete(
+                            st.session_state.assistant.analyze_chart(converted_files)
+                        )
                         st.session_state.last_analysis = result
                         
                         st.session_state.messages.append({
                             "role": "assistant",
                             "content": result
                         })
+                        return result
                         
                     except Exception as e:
                         st.session_state.messages.append({
                             "role": "assistant",
                             "content": f"❌ Error analyzing chart"
                         })
+                    
+                    finally:
+                        loop.close()
                         
-            asyncio.run(analyze_all_charts())
+            analyze_all_charts()
             if "last_analysis" in st.session_state:
                 st.rerun()
 
