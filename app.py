@@ -1,9 +1,11 @@
+from fastapi import logger
 import streamlit as st
 import asyncio
 from chart_assistant import ChartsAssistant
 from ui_rendering import create_file_uploader, create_clear_chat_button, write_messages, manage_chat, render_preview
 from session_state_manager import init_session_state
 from files_processing import read_uploaded_files
+from azure.core.exceptions import HttpResponseError
 
 st.title("📊 Chart Analysis Assistant")
 
@@ -44,11 +46,12 @@ with st.sidebar:
                             "content": result
                         })
                         
+                    except HttpResponseError as e:
+                        st.error("Failed to analyze chart. Please try again.")
+                        logger.exception(f"Azure API error: {e}")
                     except Exception as e:
-                        st.session_state.messages.append({
-                            "role": "assistant",
-                            "content": f"❌ Error analyzing chart"
-                        })
+                        st.error("An unexpected error occurred.")
+                        logger.exception(f"Unexpected error: {e}")
                         
             asyncio.run(analyze_all_charts())
             if "last_analysis" in st.session_state:

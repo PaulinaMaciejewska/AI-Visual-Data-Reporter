@@ -19,8 +19,25 @@ SYSTEM_PROMPT = """You are a chart analysis expert.
 class ChartsAssistant: 
     def __init__(self):
         Config.validate_env_variables()
-        self.openai_client = Config.get_openai_client()
-        self.vision_client = Config.get_vision_client()
+        # Lazy initialization - clients are created only during first use
+        self._openai_client = None
+        self._vision_client = None
+   
+    @property
+    def openai_client(self):
+        """Lazy initialization of OpenAI client"""
+        if self._openai_client is None:
+            print("🔄 Initializing OpenAI client...")
+            self._openai_client = Config.get_openai_client()
+        return self._openai_client
+    
+    @property
+    def vision_client(self):
+        """Lazy initialization of Vision client"""
+        if self._vision_client is None:
+            print("🔄 Initializing Vision client...")
+            self._vision_client = Config.get_vision_client()
+        return self._vision_client
    
     async def analyze_chart(self, files: List[Tuple[str, bytes]]) -> str:
         """Computer Vision OCR + GPT-4 Vision to analyze chart images and extract structured data.
