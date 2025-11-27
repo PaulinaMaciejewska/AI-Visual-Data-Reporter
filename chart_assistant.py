@@ -1,12 +1,13 @@
 import asyncio
 import os
-import time
+import traceback
 import base64
 import io
 from config import Config
 from azure.cognitiveservices.vision.computervision.models import OperationStatusCodes
 from azure.core.exceptions import HttpResponseError
 from tenacity import retry, stop_after_attempt, wait_exponential
+from typing import List, Tuple, Dict, Any, Optional, Union
 
 SYSTEM_PROMPT = """You are a chart analysis expert. 
     Analyze charts and provide:
@@ -14,15 +15,19 @@ SYSTEM_PROMPT = """You are a chart analysis expert.
     2. Key data points
     3. Trends and insights
     4. Concise summary"""
+    
 class ChartsAssistant: 
     def __init__(self):
         Config.validate_env_variables()
         self.openai_client = Config.get_openai_client()
         self.vision_client = Config.get_vision_client()
-
-    
-    async def analyze_chart(self, files):
-        """Computer Vision OCR + GPT-4 Vision to analyze chart images and extract structured data."""
+   
+    async def analyze_chart(self, files: List[Tuple[str, bytes]]) -> str:
+        """Computer Vision OCR + GPT-4 Vision to analyze chart images and extract structured data.
+        Args:
+            files (List[Tuple[str, bytes]]): List of tuples containing filename and image data in bytes.
+        Returns: str: The analysis result from GPT-4 Vision.
+        """
         
         try: 
             image_bytes_dict = {}
@@ -45,7 +50,6 @@ class ChartsAssistant:
             # Process in parallel
             tasks = [self.process_single_file(fn, data) for fn, data in files[:5]]
             all_text_results = await asyncio.gather(*tasks)
-
         
             print("Analyzing with GPT-4 Vision...")
             
@@ -55,10 +59,8 @@ class ChartsAssistant:
                     {
                         "type": "text",
                         "text": f"""Analyze these charts:
-
                 OCR Data:
                 {ocr_summary[:500]}
-
                 Return structured analysis."""
                     }
                 ]
@@ -84,7 +86,6 @@ class ChartsAssistant:
                     }
                 ],
                 max_tokens=2500,
-                # response_format={"type": "json_object"}, 
                 temperature=0.3  
             )
             
@@ -93,64 +94,72 @@ class ChartsAssistant:
         
         except Exception as e:
             print(f"❌ ERROR in analyze_chart: {type(e).__name__}: {str(e)}")
-            import traceback
             traceback.print_exc()
-            raise  # Re-raise so your GUI can catch it
+            raise 
     
 
     @retry(
             stop=stop_after_attempt(3),
             wait=wait_exponential(multiplier=1, min=2, max=10)
         )
-    async def process_single_file(self, filename, image_bytes):
-            """Process a single file with OCR"""
+    async def process_single_file(self, filename: str, image_bytes: bytes) -> Tuple[str, str]:
+        """Process a single file with OCR
+        Args:
+            filename (str): The name of the file.
+            image_bytes (bytes): The image data in bytes.
+        Returns: Tuple[str, str]: The filename and extracted text.
+        """
+        try:
+            print(f"Processing {filename}...")
+            image_stream = io.BytesIO(image_bytes)
+            image_stream.seek(0)
+            
             try:
-                print(f"Processing {filename}...")
-                image_stream = io.BytesIO(image_bytes)
-                image_stream.seek(0)
-                
-                try:
-                    # read_result = self.vision_client.read_in_stream(image_stream, raw=True)
-                    loop = asyncio.get_event_loop()
-                    read_result = await loop.run_in_executor(
-                        None,  # Uses default ThreadPoolExecutor
-                        lambda: self.vision_client.read_in_stream(image_stream, raw=True)
-                    )
-                except HttpResponseError as e:
-                    if e.status_code == 429:
-                        print(f"Rate limit exceeded, retrying...")
-                        raise
-                    elif e.status_code == 400:
-                        print(f"Invalid image format: {e}")
-                        return (filename, "")
-                    elif e.status_code == 500:
-                        print(f"Server error, retrying...")
-                        raise
-                    else:
-                        raise
-                operation_id = read_result.headers["Operation-Location"].split("/")[-1]
-                
-                print(f"Operation ID for {filename}: {operation_id}")
-                
-                result = await self._poll_for_result(operation_id)
-                
-                if result is None:
-                    print(f"Failed to get result for {filename}")
+                # read_result = self.vision_client.read_in_stream(image_stream, raw=True)
+                loop = asyncio.get_event_loop()
+                read_result = await loop.run_in_executor(
+                    None,  # Uses default ThreadPoolExecutor
+                    lambda: self.vision_client.read_in_stream(image_stream, raw=True)
+                )
+            except HttpResponseError as e:
+                if e.status_code == 429:
+                    print(f"Rate limit exceeded, retrying...")
+                    raise
+                elif e.status_code == 400:
+                    print(f"Invalid image format: {e}")
                     return (filename, "")
-                
-                extracted = self.extract_text(result)
-                print(f"Extracted text from {filename}: {len(extracted)} characters")
-                
-                return (filename, extracted)
-                
-            except Exception as e:
-                print(f"Error processing {filename}")
+                elif e.status_code == 500:
+                    print(f"Server error, retrying...")
+                    raise
+                else:
+                    raise
+            operation_id = read_result.headers["Operation-Location"].split("/")[-1]
+            
+            print(f"Operation ID for {filename}: {operation_id}")
+            
+            result = await self._poll_for_result(operation_id)
+            
+            if result is None:
+                print(f"Failed to get result for {filename}")
                 return (filename, "")
+            
+            extracted = self.extract_text(result)
+            print(f"Extracted text from {filename}: {len(extracted)} characters")
+            
+            return (filename, extracted)
+            
+        except Exception as e:
+            print(f"Error processing {filename}")
+            return (filename, "")
 
-    def extract_text(self,result):
-        """Extract text from OCR result"""
+    def extract_text(self, result: Optional[Union[Dict[str, Any], Any]]) -> str:
+        """Extract text from OCR result
+        Args:
+            result (Optional[Union[Dict[str, Any], Any]]): The read result.
+        Returns: str: Extracted text.
+        """
         if result is None:
-            return 
+            return ""
         analyze_result = result.get('analyze_result') if isinstance(result, dict) else result.analyze_result
         file_text_items = []
         if analyze_result and hasattr(analyze_result, 'read_results'):
@@ -164,8 +173,14 @@ class ChartsAssistant:
         return extracted_text
     
     
-    async def _poll_for_result(self, operation_id, max_attempts=30, poll_interval=1):
-        """Poll for Read operation result"""
+    async def _poll_for_result(self, operation_id: str, max_attempts: int = 30, poll_interval: int = 1) -> Optional[Union[Dict[str, Any], Any]]:
+        """Poll for Read operation result
+        Args:
+            operation_id (str): The operation ID to poll.
+            max_attempts (int): Maximum number of polling attempts.
+            poll_interval (int): Time in seconds between polling attempts.
+        Returns: Optional[Union[Dict[str, Any], Any]]: The read result or None if failed.
+        """
         print("   Polling for results...", end="", flush=True)
         
         for attempt in range(max_attempts):
@@ -189,8 +204,13 @@ class ChartsAssistant:
         print(" ✗ Timeout")
         return None
 
-    def followup_response(self, question, previous_analysis):
-        """Generate follow-up response based on previous analysis."""
+    def followup_response(self, question: str, previous_analysis: str) -> str:
+        """Generate follow-up response based on previous analysis.
+        Args:
+            question (str): The follow-up question.
+            previous_analysis (str): The previous chart analysis.
+        Returns: str: The response from the model.
+        """
         response = self.openai_client.chat.completions.create(
             model=os.getenv("OPENAI_DEPLOYMENT_NAME"),
             messages=[

@@ -47,13 +47,13 @@ tests/
 └── fixtures/
 ```
 
-**P2: Brak separacji concerns**
+<!-- **P2: Brak separacji concerns**
 
 - `app.py` ma 155 linii, ale zawiera:
   - UI rendering (Streamlit)
   - PDF processing (PyMuPDF)
   - Async orchestration
-  - Session state management
+  - Session state management -->
 
 **P3: Mieszanie async z sync kodem**
 
@@ -451,7 +451,7 @@ if uploaded_files:
             return
 ```
 
-**P20: St.rerun() bez warunków**
+<!-- **P20: St.rerun() bez warunków**
 
 ```python
 # linia 131
@@ -462,7 +462,7 @@ st.rerun()  # Zawsze rerun
 st.rerun()  # Zawsze rerun
 ```
 
-**Problem**: Niepotrzebne reruns mogą powodować performance issues.
+**Problem**: Niepotrzebne reruns mogą powodować performance issues. -->
 
 **P21: Session state bez cleanup**
 
@@ -793,7 +793,7 @@ OPENAI_DEPLOYMENT_NAME=gpt-4-vision
 OPENAI_API_VERSION=2024-02-15-preview
 ``` -->
 
-**P39: Brak API documentation**
+<!-- **P39: Brak API documentation**
 
 ```python
 async def analyze_chart(self, files):
@@ -804,7 +804,7 @@ Docstring jest OK, ale brak:
 
 - Parametrów
 - Return type
-- Przykładów użycia
+- Przykładów użycia -->
 
 **P40: Brak architecture diagram**
 README pokazuje strukturę folderów, ale brak diagramu przepływu:
@@ -835,7 +835,7 @@ ChartsAssistant.analyze_chart()
 
 ### Problemy:
 
-**P41: Brak type hints**
+<!-- **P41: Brak type hints**
 
 ```python
 # chart_assistant.py, linia 15
@@ -851,9 +851,9 @@ async def analyze_chart(
     self,
     files: List[Tuple[str, bytes]]
 ) -> str:
-```
+``` -->
 
-**P42: Inconsistent naming**
+<!-- **P42: Inconsistent naming**
 
 ```python
 # app.py
@@ -864,7 +864,7 @@ base64_images_dict  # snake_cas
 all_text_results  # snake_case
 ```
 
-Actually, naming jest spójny! To jest PLUS.
+Actually, naming jest spójny! To jest PLUS. -->
 
 <!-- **P43: Magic strings**
 ```python

@@ -28,7 +28,12 @@ class Config:
         cls.validate_env_variables()
         
     @staticmethod
-    def validate_env_variables():
+    def validate_env_variables() -> None:
+        """Verify if there is any missing required env variable
+
+        Raises:
+            EnvironmentError: Raise if any required env variable is missing
+        """
         missing = []
         for var in ['VISION_ENDPOINT', 'VISION_KEY', 'OPENAI_ENDPOINT', 'OPENAI_KEY', 'OPENAI_DEPLOYMENT_NAME', 'OPENAI_DEPLOYMENT_NAME']:
             if not os.getenv(var):
@@ -37,7 +42,12 @@ class Config:
             raise EnvironmentError(f"Missing required environment variables: {', '.join(missing)}")
 
     @staticmethod
-    def get_openai_client():
+    def get_openai_client() -> AzureOpenAI:
+        """Get the Azure OpenAI client instance
+
+        Returns:
+            AzureOpenAI: The Azure OpenAI client
+        """
         if Config._openai_client is None:
             Config._openai_client = AzureOpenAI(
             azure_endpoint = Config.OPENAI_ENDPOINT, 
@@ -47,7 +57,12 @@ class Config:
         return Config._openai_client
 
     @staticmethod
-    def get_vision_client():
+    def get_vision_client() -> ComputerVisionClient:
+        """Get the Azure Computer Vision client instance
+
+        Returns:
+            ComputerVisionClient: The Azure Computer Vision client
+        """
         if Config._vision_client is None:
             credentials = CognitiveServicesCredentials(Config.VISION_KEY)
             Config._vision_client = ComputerVisionClient(
