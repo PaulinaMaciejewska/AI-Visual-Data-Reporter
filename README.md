@@ -158,6 +158,11 @@ https://drive.google.com/file/d/1aqZ-FCZqBr4ezDGEhYs-kBegjoBp3y_Z/view?usp=shari
 Testy pdf'ów złożonych z kilku wykresów w jednym pliku (tj. [5] i [6]) zostały przetestowane manualnie (Patrz: [Uruchomienie aplikacji](#uruchomienie-id))
 
 
+Sprawdzenie ile procent kodu jest pokryte testami:
+```
+pytest --cov=. --cov-report=html
+```
+
 ### 📦 Podsumowanie
 
 ✅ Minimum: 20 wykresów (wersja skrócona, testowa)

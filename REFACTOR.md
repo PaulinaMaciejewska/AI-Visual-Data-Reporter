@@ -573,7 +573,7 @@ def test_chart_analysis(mock_openai, mock_vision):
     assert "chart" in result.lower()
 ```
 
-**P25: Brak test coverage measurement**
+<!-- **P25: Brak test coverage measurement**
 Nie wiadomo ile kodu jest pokryte testami.
 
 **Add**:
@@ -581,9 +581,9 @@ Nie wiadomo ile kodu jest pokryte testami.
 ```bash
 pip install pytest-cov
 pytest --cov=. --cov-report=html
-```
+``` -->
 
-**P26: Test data commitowane do repo**
+<!-- **P26: Test data commitowane do repo**
 
 ```
 tests/
@@ -598,7 +598,7 @@ tests/
 
 - Dodaj do `.gitignore`
 - Używaj git-lfs dla binary files
-- Lub pobieraj test data z Azure Blob Storage
+- Lub pobieraj test data z Azure Blob Storage -->
 
 **P27: Niepełne asserty**
 
