@@ -22,80 +22,95 @@ class ChartsAssistant:
         self.openai_client = Config.get_openai_client()
         self.vision_client = Config.get_vision_client()
    
-    async def analyze_chart(self, files: List[Tuple[str, bytes]]) -> str:
-        """Computer Vision OCR + GPT-4 Vision to analyze chart images and extract structured data.
-        Args:
-            files (List[Tuple[str, bytes]]): List of tuples containing filename and image data in bytes.
-        Returns: str: The analysis result from GPT-4 Vision.
-        """
-        
-        try: 
-            image_bytes_dict = {}
-            base64_images_dict = {}
-            all_text_results = []
-            
-            for filename, image_data in files:
-                if isinstance(image_data, bytes):
-                    image_bytes_dict[filename] = image_data
-                    base64_images_dict[filename] = base64.b64encode(image_data).decode('utf-8')
-                else:
-                    # Already base64
-                    image_bytes_dict[filename] = base64.b64decode(image_data)
-                    base64_images_dict[filename] = image_data
-                    
+async def analyze_chart(self, files: List[Tuple[str, bytes]]) -> str:
+    """Computer Vision OCR + GPT-4 Vision to analyze chart images and extract structured data.
+    Args:
+        files (List[Tuple[str, bytes]]): List of tuples containing filename and image data in bytes.
+    Returns: str: The analysis result from GPT-4 Vision.
+    """
+    try:
+        if not files:
+            print("No files provided to analyze_chart.")
+            return ""
 
-            # Read operation for OCR from file
-            print("Extracting text with OCR...")
+        # Limitujemy liczbę plików do przetworzenia
+        total_files = len(files)
+        if total_files > MAX_FILES_TO_PROCESS:
+            print(f"Warning: Processing limited to {MAX_FILES_TO_PROCESS} files out of {total_files} uploaded.")
+        files_to_process = files[:MAX_FILES_TO_PROCESS]
 
-            # Process in parallel
-            tasks = [self.process_single_file(fn, data) for fn, data in files[:5]]
-            all_text_results = await asyncio.gather(*tasks)
-        
-            print("Analyzing with GPT-4 Vision...")
-            
-            ocr_summary = "\n\n".join([f"**{filename}:**\n{text}" for filename, text in all_text_results])
+        image_bytes_dict = {}
+        base64_images_dict = {}
+        all_text_results = []
 
-            user_prompt = [
-                    {
-                        "type": "text",
-                        "text": f"""Analyze these charts:
-                OCR Data:
-                {ocr_summary[:500]}
-                Return structured analysis."""
-                    }
-                ]
-            
-            for filename in all_text_results:
+        # Przygotowujemy tylko te pliki, które zamierzamy przetworzyć
+        for filename, image_data in files_to_process:
+            if isinstance(image_data, bytes):
+                image_bytes_dict[filename] = image_data
+                base64_images_dict[filename] = base64.b64encode(image_data).decode('utf-8')
+            else:
+                # Already base64
+                image_bytes_dict[filename] = base64.b64decode(image_data)
+                base64_images_dict[filename] = image_data
+
+        # Read operation for OCR from file
+        print("Extracting text with OCR...")
+
+        # Process in parallel (tylko ograniczona lista)
+        tasks = [self.process_single_file(fn, data) for fn, data in files_to_process]
+        all_text_results = await asyncio.gather(*tasks)
+
+        print("Analyzing with GPT-4 Vision...")
+
+        ocr_summary = "\n\n".join([f"**{filename}:**\n{text}" for filename, text in all_text_results])
+
+        user_prompt = [
+                {
+                    "type": "text",
+                    "text": f"""Analyze these charts:
+            OCR Data:
+            {ocr_summary[:500]}
+            Return structured analysis."""
+                }
+            ]
+
+        # Upewniamy się, że iterujemy po wynikach a nie po oryginalnych wpisach
+        for filename, _ in all_text_results:
+            # zabezpieczenie: jeśli brakuje base64 dla pliku, pomijamy go
+            if filename in base64_images_dict:
                 user_prompt.append({
                     "type": "image_url",
                     "image_url": {
-                        "url": f"data:image/jpeg;base64,{base64_images_dict[filename[0]]}"
+                        "url": f"data:image/jpeg;base64,{base64_images_dict[filename]}"
                     }
                 })
-                
-            response = self.openai_client.chat.completions.create(
-                model=os.getenv("OPENAI_DEPLOYMENT_NAME"),
-                messages=[
-                    {
-                        "role": "system",
-                        "content": SYSTEM_PROMPT
-                    },
-                    {
-                        "role": "user",
-                        "content": user_prompt      
-                    }
-                ],
-                max_tokens=2500,
-                temperature=0.3  
-            )
-            
-            print(f"Response received: {response.choices[0].message.content[:200]}")
-            return response.choices[0].message.content
-        
-        except Exception as e:
-            print(f"❌ ERROR in analyze_chart: {type(e).__name__}: {str(e)}")
-            traceback.print_exc()
-            raise 
+            else:
+                print(f"Warning: missing base64 data for {filename}, skipping image attachment to prompt.")
+
+        response = self.openai_client.chat.completions.create(
+            model=os.getenv("OPENAI_DEPLOYMENT_NAME"),
+            messages=[
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT
+                },
+                {
+                    "role": "user",
+                    "content": user_prompt
+                }
+            ],
+            max_tokens=2500,
+            temperature=0.3
+        )
+
+        print(f"Response received: {response.choices[0].message.content[:200]}")
+        return response.choices[0].message.content
+
+    except Exception as e:
+        print(f"❌ ERROR in analyze_chart: {type(e).__name__}: {str(e)}")
+        traceback.print_exc()
+        raise
+
     
 
     @retry(
@@ -232,4 +247,5 @@ class ChartsAssistant:
             max_tokens=1500
         )
         
+
         return response.choices[0].message.content
