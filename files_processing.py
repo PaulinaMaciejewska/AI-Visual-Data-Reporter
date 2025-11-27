@@ -1,7 +1,11 @@
-from constants import  ALLOWED_PDF_FORMAT
+from constants import  ALLOWED_PDF_FORMAT, MAX_PAGES
 import fitz  # PyMuPDF
 from typing import List, Tuple
 
+
+def is_pdf_truncated(file_bytes: bytes) -> bool:
+    doc = fitz.open(stream=file_bytes, filetype="pdf")
+    return len(doc) > MAX_PAGES
 
 def convert_pdf_to_image(filename: str, file_bytes: bytes) -> List[Tuple[str, bytes]]:
     """Convert PDF pages to images
@@ -16,6 +20,8 @@ def convert_pdf_to_image(filename: str, file_bytes: bytes) -> List[Tuple[str, by
     pages: List[Tuple[str, bytes]] = []
     doc = fitz.open(stream=file_bytes, filetype="pdf")
     for page_num, page in enumerate(doc):
+        if page_num >= MAX_PAGES:
+            break
         pix = page.get_pixmap()
         img_bytes = pix.tobytes("jpg")
         pages.append((f"{filename[:-4]}_page_{page_num+1}.jpg", img_bytes))

@@ -1,9 +1,10 @@
 import streamlit as st
-from constants import ALLOWED_FORMATS, ALLOWED_IMAGE_FORMATS, ALLOWED_PDF_FORMAT
+from constants import ALLOWED_FORMATS, ALLOWED_IMAGE_FORMATS, ALLOWED_PDF_FORMAT, MAX_PAGES
 from session_state_manager import clear_chat
 import fitz  # PyMuPDF
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 from typing import List, Optional
+from files_processing import is_pdf_truncated
 
 def render_preview(uploaded_file: UploadedFile) -> None:
     """Render preview for uploaded file - image or PDF
@@ -23,7 +24,9 @@ def render_preview(uploaded_file: UploadedFile) -> None:
         pdf_bytes = uploaded_file.read()
         first_page = fitz.open(stream=pdf_bytes, filetype="pdf")[0]
         st.image(first_page.get_pixmap().tobytes("png"), caption=f"Uploaded: {uploaded_file.name}", use_container_width=True)
-        st.write(f"📄 Uploaded: {uploaded_file.name}")
+        pdf_pages_pointer = is_pdf_truncated(pdf_bytes)
+        if pdf_pages_pointer:
+            st.warning(f"PDF exceeded pages limit. Processing first {MAX_PAGES} pages only.")
         st.download_button(
             label="Download PDF",
             data=uploaded_file,
@@ -64,12 +67,12 @@ def create_clear_chat_button() -> None:
         action = False
         
         with col1:
-            if st.button("Yes", use_container_width=True):
+            if st.button("Yes", width="stretch"):
                 clear_chat()
                 st.session_state.show_confirm_clear = False
                 action = True
         with col2:
-            if st.button("Cancel", use_container_width=True):
+            if st.button("Cancel", width="stretch"):
                 st.session_state.show_confirm_clear = False
                 action = True
 
