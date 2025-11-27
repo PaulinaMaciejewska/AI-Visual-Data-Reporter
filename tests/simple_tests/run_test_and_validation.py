@@ -8,6 +8,7 @@ import sys
 import os
 import asyncio
 from pathlib import Path
+import re
 
 # Add parent directory to path so we can import modules from project root
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -26,7 +27,7 @@ class TestResultOfAnalysis:
         with open(self.image_path, "rb") as img_file:
             self.image_data = img_file.read()
 
-    def _test_chart_analysis(self):
+    def _test_chart_analysis(self, spec_test_case):
         if self.image_data is None:
             self._read_image()
         
@@ -37,6 +38,7 @@ class TestResultOfAnalysis:
         assert "chart type" in analysis_result.lower()
         assert "market share" in analysis_result.lower()
         assert any(str(i) + "%" for i in range(101) if str(i) in analysis_result)
+        assert any(f"{value}%" in analysis_result for value in [int(p) for text in spec_test_case["expected"]["trends"] for p in re.findall(r'(\d+)%', text)])
 
     def _test_full_workflow(self, spec_test_case):
         if self.image_data is None:
@@ -57,7 +59,7 @@ if __name__ == "__main__":
         try:
             print(80 * "=")
             print(f"Running tests for {case['image_path']}...")
-            tester._test_chart_analysis()
+            tester._test_chart_analysis(case)
             print(f"✅ Test chart analysis passed for {case['image_path']}")
 
             tester._test_full_workflow(case)
